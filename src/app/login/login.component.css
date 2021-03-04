@@ -1,1 +1,17 @@
-    
+.login-form-container {
+  margin-top:5rem;
+  display: grid;
+
+  width:40rem;
+  place-items: center;
+}
+
+h1 {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+button {
+  display: block;
+  margin: auto;
+}
