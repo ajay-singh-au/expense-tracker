@@ -1,8 +1,6 @@
 .login-form-container {
-  margin-top:5rem;
   display: grid;
-
-  width:40rem;
+  margin-top: 5rem;
   place-items: center;
 }
 
@@ -14,4 +12,17 @@ h1 {
 button {
   display: block;
   margin: auto;
+}
+
+mat-form-field {
+  width: 20rem;
+  max-width: 25rem;
+}
+
+form {
+  background: #f9f9f9;
+  padding: 2rem;
+  border: 1px solid;
+  border-radius: 0.2rem;
+  border-color: #e4e4e4;
 }
