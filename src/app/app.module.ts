@@ -39,6 +39,7 @@ const routes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    HttpClientModule,
     MatInputModule,
     MatChipsModule,
     MatCheckboxModule,
