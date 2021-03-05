@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import {
   FormBuilder,
   FormGroup,
@@ -26,7 +28,8 @@ export class AddExpenseComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
-    private expensesServiceHelper: expensesService
+    private expensesServiceHelper: expensesService,
+    private _snackBar: MatSnackBar
   ) {
     this.http
       .get<any>('http://localhost:8080/category/allm')
@@ -62,10 +65,19 @@ export class AddExpenseComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log(data);
+          this._snackBar.open('Expense Added Successfully!!', '', {
+            duration: 2000,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom',
+          });
         },
         (error) => {
-          this.error = error?.error?.error;
+          this.error = error?.message;
+          this._snackBar.open(error?.message, '', {
+            duration: 2000,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom',
+          });
         }
       );
   }

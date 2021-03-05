@@ -15,7 +15,6 @@ export class expensesService {
       })
       .pipe(
         map((data) => {
-          console.log(data);
           return data;
         })
       );
