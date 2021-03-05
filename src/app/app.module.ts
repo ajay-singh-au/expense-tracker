@@ -19,13 +19,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
+import { AppRoutingModule } from './app-routing.module';
 
-const routes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: 'employee-dashboard', component:EmployeeDashboardComponent },
-  { path: 'manager-dashboard', component: ManagerDashboardComponent },
-  { path: '**', component: NotFoundComponent },
-];
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,13 +41,9 @@ const routes: Routes = [
     MatSelectModule,
     MatIconModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(
-      routes
-    ), HttpClientModule,
+    AppRoutingModule,
   ],
-  providers: [
-    EmployeeService
-  ],
-  bootstrap: [AppComponent]
+  providers: [EmployeeService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

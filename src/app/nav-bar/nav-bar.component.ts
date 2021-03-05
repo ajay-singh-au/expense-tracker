@@ -8,15 +8,19 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  isLoggedIn: string = 'false';
+  isLoggedIn: string = '';
+  currentUser: object = {};
   constructor(
     private authenticationServiceHelper: authenticationService,
     private router: Router
   ) {
     if (this.authenticationServiceHelper.currentUserValue) {
-      this.authenticationServiceHelper.currentUser.subscribe(
-        (x) => (this.isLoggedIn = x)
-      );
+      this.authenticationServiceHelper.currentUser.subscribe((x) => {
+        this.currentUser = this.authenticationServiceHelper.getDecodedAccessToken(
+          x
+        );
+        this.isLoggedIn = x;
+      });
     }
   }
   ngOnInit(): void {}

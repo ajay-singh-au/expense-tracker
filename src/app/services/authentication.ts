@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -30,8 +31,15 @@ export class authenticationService {
       .pipe(
         map((data) => {
           if (data && data.token) {
-            localStorage.setItem('currentUser', JSON.stringify(data.token));
-            this.currentUserSubject.next(data.token);
+            localStorage.setItem(
+              'currentUser',
+              JSON.stringify(
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXNlcklkIjoibW0iLCJpYXQiOjE1MTYyMzkwMjJ9.MxK7rGBGHliT4FmIlk_o3-bOvbttqIosNH1S-t-pT3M'
+              )
+            );
+            this.currentUserSubject.next(
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXNlcklkIjoibW0iLCJpYXQiOjE1MTYyMzkwMjJ9.MxK7rGBGHliT4FmIlk_o3-bOvbttqIosNH1S-t-pT3M'
+            );
           }
           return data;
         })
@@ -41,5 +49,12 @@ export class authenticationService {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+  }
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch (Error) {
+      return null;
+    }
   }
 }
