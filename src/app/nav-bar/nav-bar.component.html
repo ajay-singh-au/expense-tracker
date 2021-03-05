@@ -7,9 +7,14 @@
     />
   </a>
   <h2>Expense Tracker</h2>
+  <div *ngIf="isLoggedIn; else elseBlock">
+  <button (click)="logout()" class="login-button-container login-button" mat-raised-button color="accent">Logout</button>
+  </div>
+  <ng-template #elseBlock >
   <a routerLink="/" class="login-button-container">
     <button class="login-button" mat-raised-button color="primary">
       Login
     </button>
   </a>
+</ng-template>
 </div>
