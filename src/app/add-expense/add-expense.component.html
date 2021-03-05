@@ -1,1 +1,38 @@
-<p>add-expense works!</p>
+<div class="login-form-container">
+    <h1>Add New Expense</h1>
+    <form [formGroup]="myForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Select Category of Expense</mat-label>
+        <mat-select [(ngModel)]="selectedValue" formControlName="category">
+          <mat-option *ngFor="let data of data" [value]="data.id">
+            {{data.categoryName}}
+          </mat-option>
+        </mat-select>
+        <mat-hint *ngIf="!selectedValue">Please Select Category of Expense</mat-hint>
+      </mat-form-field>
+      <br/>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Enter Amount of Expense"
+          type="number"
+          formControlName="amount"
+          required
+          autocomplete="false"
+        />
+        <mat-hint *ngIf="!amountInput.value">Please Enter Amount of Expense</mat-hint>
+      </mat-form-field><br />
+      <br />
+      <mat-form-field appearance="fill">
+        <mat-label>Select Date of Expense</mat-label>
+        <input matInput [matDatepicker]="picker"formControlName="date" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-hint *ngIf="!dateInput.value">Please Select Date of Expense</mat-hint>
+      </mat-form-field>
+      <br />
+      <br />
+      <button  (click)="addExpense()"  mat-raised-button color="primary">Add Expense</button>
+    </form>
+  </div>
+  
