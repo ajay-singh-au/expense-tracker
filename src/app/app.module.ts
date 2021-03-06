@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { EmployeeDashboardComponent } from './employee-dashboard/employee-dashboard.component';
+import { EmployeeTableComponent } from './employee-table/employee-table.component';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { LoginComponent } from './login/login.component';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
@@ -26,6 +27,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { MatCardModule } from '@angular/material/card';
     NavBarComponent,
     LoginComponent,
     NotFoundComponent,
+    EmployeeTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ import { MatCardModule } from '@angular/material/card';
     MatNativeDateModule,
     MatSnackBarModule,
     MatCardModule,
+    MatTableModule,
     AppRoutingModule,
   ],
   providers: [EmployeeService],
