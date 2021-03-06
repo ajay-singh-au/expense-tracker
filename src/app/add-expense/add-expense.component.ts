@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
@@ -32,7 +32,12 @@ export class AddExpenseComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {
     this.http
-      .get<any>('http://localhost:8080/category/allm')
+      .get<any>('http://localhost:8080/category/all', {
+        headers: new HttpHeaders().set(
+          'Authorization',
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzd2F4QGdtYWlsLmNvbSIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNjE1MDQ2MTEyLCJleHAiOjE2MTUwNjQxMTJ9.cJmxd83UPXwKvfZ-2sCbG9AZzA067-l3Q9D64-mk3Fc'
+        ),
+      })
       .subscribe((data) => {
         console.log(data);
         this.data = data;
@@ -73,6 +78,7 @@ export class AddExpenseComponent implements OnInit {
         },
         (error) => {
           this.error = error?.message;
+          console.log(error);
           this._snackBar.open(error?.message, '', {
             duration: 2000,
             horizontalPosition: 'right',
