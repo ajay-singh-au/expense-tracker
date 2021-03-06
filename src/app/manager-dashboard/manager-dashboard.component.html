@@ -1,1 +1,23 @@
-<h1>manager-dashboard works!</h1>
+<h2 class="header">Expenses</h2>
+
+<div class="employee-container">
+  <ul>
+    <mat-card>
+      <h3 class="heading">Employee id</h3>
+      <h3 class="heading">Employee Name</h3>
+      <h3 class="heading">Employee Email</h3>
+      <h3 class="heading">Total Expenses</h3>
+    </mat-card>
+
+    <li *ngFor="let employee of employees">
+      <a routerLink="/employee-dashboard" class="login-button-container">
+        <mat-card>
+          {{ employee.id }}
+          <h3>{{ employee.name }}</h3>
+          <h3>{{ employee.username }}</h3>
+          <h3>{{ employee.email }}</h3>
+        </mat-card>
+      </a>
+    </li>
+  </ul>
+</div>

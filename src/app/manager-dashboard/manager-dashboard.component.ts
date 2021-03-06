@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {EmployeeService} from '../services/employees';
 
 @Component({
   selector: 'manager-dashboard',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManagerDashboardComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
+  public employees;
+  constructor(private api: EmployeeService) {}
+  ngOnInit() {
+    this.api.getEmployee().subscribe((res) => {
+      this.employees = res;
+      console.log('data of employee', this.employees);
+    });
   }
-
 }
