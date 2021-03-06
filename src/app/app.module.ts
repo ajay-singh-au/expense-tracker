@@ -9,6 +9,7 @@ import { EmployeeDashboardComponent } from './employee-dashboard/employee-dashbo
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { LoginComponent } from './login/login.component';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
+import { EmployeeTableComponent } from './employee-table/employee-table.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -36,6 +37,7 @@ import { MatTableModule } from '@angular/material/table';
     AppComponent,
     EmployeeDashboardComponent,
     ManagerDashboardComponent,
+    EmployeeTableComponent,
     AddExpenseComponent,
     NavBarComponent,
     LoginComponent,

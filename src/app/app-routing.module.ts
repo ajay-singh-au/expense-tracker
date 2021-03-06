@@ -3,6 +3,7 @@ import { ProtectedRoute } from './protected-router.service';
 
 import { RouterModule, Routes } from '@angular/router';
 import { EmployeeDashboardComponent } from './employee-dashboard/employee-dashboard.component';
+import { ReportComponent } from './report/report.component';
 import { LoginComponent } from './login/login.component';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'manager-dashboard',
     component: ManagerDashboardComponent,
+  },
+  {
+    path: 'employee-reports',
+    component: ReportComponent,
   },
   { path: '**', component: NotFoundComponent },
 ];
