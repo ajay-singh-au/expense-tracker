@@ -8,6 +8,7 @@ import {
 import { authenticationService } from '../services/authentication';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'login',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authenticationServiceHelper: authenticationService,
-    private router: Router
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {
     if (this.authenticationServiceHelper.currentUserValue) {
       this.router.navigate(['/employee-dashboard']);
@@ -50,10 +52,20 @@ export class LoginComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (data) => {
+            this._snackBar.open('Login Successfully', '', {
+              duration: 2000,
+              horizontalPosition: 'right',
+              verticalPosition: 'bottom',
+            });
             this.router.navigate(['/employee-dashboard']);
           },
           (error) => {
             this.error = error?.error?.error;
+            this._snackBar.open(`${this.error}`, '', {
+              duration: 2000,
+              horizontalPosition: 'right',
+              verticalPosition: 'bottom',
+            });
           }
         );
     }
