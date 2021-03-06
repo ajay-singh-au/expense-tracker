@@ -6,7 +6,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { EmployeeDashboardComponent } from './employee-dashboard/employee-dashboard.component';
-import { EmployeeTableComponent } from './employee-table/employee-table.component';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { LoginComponent } from './login/login.component';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
@@ -26,6 +25,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ReportComponent } from './report/report.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 
@@ -38,7 +40,7 @@ import { MatTableModule } from '@angular/material/table';
     NavBarComponent,
     LoginComponent,
     NotFoundComponent,
-    EmployeeTableComponent,
+    ReportComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,15 +51,17 @@ import { MatTableModule } from '@angular/material/table';
     MatChipsModule,
     FormsModule,
     MatCheckboxModule,
+    MatTableModule,
     MatSelectModule,
     MatIconModule,
     MatDatepickerModule,
     ReactiveFormsModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatCardModule,
-    MatTableModule,
     AppRoutingModule,
+    MatSlideToggleModule,
+    MatRadioModule,
+    MatCardModule,
   ],
   providers: [EmployeeService],
   bootstrap: [AppComponent],
