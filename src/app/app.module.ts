@@ -25,6 +25,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ReportComponent } from './report/report.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -35,6 +40,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     NavBarComponent,
     LoginComponent,
     NotFoundComponent,
+    ReportComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +51,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatChipsModule,
     FormsModule,
     MatCheckboxModule,
+    MatTableModule,
     MatSelectModule,
     MatIconModule,
     MatDatepickerModule,
@@ -52,6 +59,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatNativeDateModule,
     MatSnackBarModule,
     AppRoutingModule,
+    MatSlideToggleModule,
+    MatRadioModule,
+    MatCardModule,
   ],
   providers: [EmployeeService],
   bootstrap: [AppComponent],
