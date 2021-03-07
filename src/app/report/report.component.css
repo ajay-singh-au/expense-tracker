@@ -9,3 +9,12 @@ table {
   .example-margin {
     margin-left: 10px;
   }
+  mat-card {
+  margin-top: 5rem;
+  }
+  .advanced-pie-legend-wrapper .advanced-pie-legend .legend-items-container .legend-items {
+    overflow: initial !important;
+  }
+  .advanced-pie-legend-wrapper .advanced-pie-legend .legend-items-container .legend-items {
+    overflow: initial !important;
+}

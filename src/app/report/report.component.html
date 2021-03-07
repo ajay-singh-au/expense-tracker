@@ -52,7 +52,7 @@
       <button  (click)="fetch()"  mat-raised-button color="primary">Get Expense Report</button>
     </mat-card-content>
   </mat-card>
-  <br/><br/><hr/>
+  <br/><br/>
   <div *ngIf="dataSource">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="position">
@@ -61,17 +61,48 @@
       </ng-container>
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Category </th>
-        <td mat-cell *matCellDef="let element"> {{element?.category?.categoryName}} </td>
+        <td mat-cell *matCellDef="let element"> {{element?.category?.categoryName | titlecase}} </td>
       </ng-container>
       <ng-container matColumnDef="weight">
         <th mat-header-cell *matHeaderCellDef> Spent On Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.date | date:'fullDate'}} </td>
       </ng-container>
-      <ng-container matColumnDef="symbol">
+      <ng-container matColumnDef="shop">
+        <th mat-header-cell *matHeaderCellDef> Shop Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.shopName | titlecase}} </td>
+      </ng-container>
+      <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef> Edit </th>
-        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        <td mat-cell *matCellDef="let element">
+          <button mat-flat-button color="accent" >Edit</button> 
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef> Delete </th>
+        <td mat-cell *matCellDef="let element"> 
+          <button mat-flat-button (click)="deleteExpense(element.id)"  color="warn" >Delete</button> 
+        </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <ngx-charts-bar-vertical 
+    [view]="[700,300]"
+    [scheme]="{
+      domain: ['#9370DB', '#87CEFA', '#FA8072', '#FF7F50', '#90EE90', '#9370DB']
+    }"
+    [results]="selectedDateExpenditure"
+    [xAxisLabel]="'Date'"
+    [legendTitle]="'Date of Expense'"
+    [yAxisLabel]="'Expense'"
+    [legend]="true"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxis]="true"
+    [yAxis]="true">
+</ngx-charts-bar-vertical>
+<ngx-charts-advanced-pie-chart 
+[view]="[700,400]"
+[results]="selectedDateExpenditurebyCategory">
+</ngx-charts-advanced-pie-chart>
   </div>

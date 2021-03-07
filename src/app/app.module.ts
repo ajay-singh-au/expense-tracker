@@ -3,6 +3,7 @@ import { EmployeeService } from './employee-dashboard/employee.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { AppComponent } from './app.component';
 import { EmployeeDashboardComponent } from './employee-dashboard/employee-dashboard.component';
@@ -47,6 +48,7 @@ import { MatTableModule } from '@angular/material/table';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    NgxChartsModule,
     MatButtonModule,
     HttpClientModule,
     MatInputModule,
