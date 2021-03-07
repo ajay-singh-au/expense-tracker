@@ -8,13 +8,14 @@ import { utilHelpers } from '../services/utilHelpers';
 })
 export class expensesService {
   constructor(private http: HttpClient) {}
-  addExpense(category: string, amount: string, date: string) {
+  addExpense(category: string, amount: string, date: string, shopName: string) {
     return this.http
       .post<any>(
-        `http://localhost:8080/expense/add/2/${category}`,
+        `http://localhost:8080/expense/add/${category}`,
         {
           date: date,
           amount: amount,
+          shopName: shopName,
         },
         {
           headers: utilHelpers.headers(),
@@ -28,7 +29,19 @@ export class expensesService {
   }
   getExpensebyDate(from: string, to: string) {
     return this.http
-      .get<any>(`http://localhost:8080/expense/findBw/${from}/${to}`, {
+      .get<any>(`http://localhost:8080/expense/findBy/*/${from}/${to}`, {
+        headers: utilHelpers.headers(),
+      })
+      .pipe(
+        map((data) => {
+          console.log(data);
+          return data;
+        })
+      );
+  }
+  deleteExpense(id: string) {
+    return this.http
+      .delete<any>(`http://localhost:8080/expense/delete/${id}`, {
         headers: utilHelpers.headers(),
       })
       .pipe(
