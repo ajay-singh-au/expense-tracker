@@ -52,6 +52,17 @@ export class expensesService {
         })
       );
   }
+  allExpenses() {
+    return this.http
+      .get<any>(`http://localhost:8080/expense/my`, {
+        headers: utilHelpers.headers(),
+      })
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
   deleteExpense(id: string) {
     return this.http
       .delete<any>(`http://localhost:8080/expense/delete/${id}`, {
