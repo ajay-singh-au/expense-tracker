@@ -62,6 +62,19 @@ export class AddExpenseComponent implements OnInit {
     this.hide = true;
   }
   addExpense() {
+    if (
+      !this.categoryInput.value ||
+      !this.amountInput.value ||
+      !this.dateInput.value ||
+      !this.shopNameInput.value
+    ) {
+      this._snackBar.open('Please fill all the Required Fields', '', {
+        duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+      });
+      return;
+    }
     this.expensesServiceHelper
       .addExpense(
         this.categoryInput.value,

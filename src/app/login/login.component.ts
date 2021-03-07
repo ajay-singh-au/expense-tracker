@@ -44,6 +44,11 @@ export class LoginComponent implements OnInit {
   }
   login() {
     if (this.myForm.invalid) {
+      this._snackBar.open('Please fill all the Required Fields', '', {
+        duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+      });
       return;
     }
     if (this.emailInput.value && this.passwordInput.value) {
