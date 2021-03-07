@@ -6,6 +6,7 @@ import { EmployeeDashboardComponent } from './employee-dashboard/employee-dashbo
 import { ReportComponent } from './report/report.component';
 import { LoginComponent } from './login/login.component';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
+import { RegisterEmployeeComponent } from './register-employee/register-employee.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'manager-dashboard',
     component: ManagerDashboardComponent,
+  },
+  {
+    path: 'manager-dashboard/register-employee',
+    component: RegisterEmployeeComponent,
   },
   {
     path: 'employee-reports',

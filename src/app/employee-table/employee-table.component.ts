@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Input } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
+import { MatDialogModule, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 /**
  * @title Basic use of `<table mat-table>`
@@ -18,10 +19,12 @@ import { MatSort } from '@angular/material/sort';
 
 @Input('ELEMENT_DATA')
 export class EmployeeTableComponent implements OnInit {
+  name:string;
+  animal:string;
   ELEMENT_DATA! : EmployeeDetails[];
-  displayedColumns: string[] = ['id', 'name', 'username', 'email','phone'];
+  displayedColumns: string[] = ['id', 'name', 'username', 'email','phone','actions'];
   dataSource = new MatTableDataSource<EmployeeDetails>(this.ELEMENT_DATA);
-
+  
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(private service: EmployeeService){}

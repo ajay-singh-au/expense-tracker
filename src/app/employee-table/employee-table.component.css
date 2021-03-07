@@ -31,3 +31,7 @@ button {
   align-items: center;
   width: 100%;
 }
+
+.actions-container {
+  display: flex;
+}

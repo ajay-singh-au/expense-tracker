@@ -36,6 +36,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatDialogModule } from '@angular/material/dialog';
+import { RegisterEmployeeComponent } from './register-employee/register-employee.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     LoginComponent,
     NotFoundComponent,
     ReportComponent,
+    RegisterEmployeeComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +79,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     MatSlideToggleModule,
     MatRadioModule,
     MatCardModule,
+    MatDialogModule
   ],
   providers: [EmployeeService],
   bootstrap: [AppComponent],
