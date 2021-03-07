@@ -30,12 +30,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ReportComponent } from './report/report.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     LoginComponent,
     NotFoundComponent,
     ReportComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +70,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     MatNativeDateModule,
     MatSnackBarModule,
     MatCardModule,
+    MatToolbarModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
