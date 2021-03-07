@@ -88,6 +88,9 @@
     </table>
     <ngx-charts-bar-vertical 
     [view]="[700,300]"
+    [scheme]="{
+      domain: ['#9370DB', '#87CEFA', '#FA8072', '#FF7F50', '#90EE90', '#9370DB']
+    }"
     [results]="selectedDateExpenditure"
     [xAxisLabel]="'Date'"
     [legendTitle]="'Date of Expense'"
@@ -98,4 +101,8 @@
     [xAxis]="true"
     [yAxis]="true">
 </ngx-charts-bar-vertical>
+<ngx-charts-advanced-pie-chart 
+[view]="[700,400]"
+[results]="selectedDateExpenditurebyCategory">
+</ngx-charts-advanced-pie-chart>
   </div>

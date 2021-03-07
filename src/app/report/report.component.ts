@@ -40,6 +40,7 @@ export class ReportComponent implements OnInit {
     to: new FormControl(),
   });
   selectedDateExpenditure = [];
+  selectedDateExpenditurebyCategory = [];
   fetch() {
     this.expensesServiceHelper
       .getExpensebyDate(
@@ -61,6 +62,21 @@ export class ReportComponent implements OnInit {
             });
           });
           this.selectedDateExpenditure = arr;
+          this.expensesServiceHelper
+            .getExpensebyDateandCategory(
+              moment(this.dates.from).format('YYYY-MM-DD'),
+              moment(this.dates.to).format('YYYY-MM-DD')
+            )
+            .subscribe((data) => {
+              let arr = [];
+              data.forEach((single) => {
+                arr.push({
+                  name: single.CategoryName,
+                  value: parseInt(single.netAmount),
+                });
+              });
+              this.selectedDateExpenditurebyCategory = arr;
+            });
         },
         (error) => {
           console.log(error);

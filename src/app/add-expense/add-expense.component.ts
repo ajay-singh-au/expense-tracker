@@ -80,7 +80,6 @@ export class AddExpenseComponent implements OnInit {
         },
         (error) => {
           this.error = error?.message;
-          console.log(error);
           this._snackBar.open(error?.message, '', {
             duration: 2000,
             horizontalPosition: 'right',

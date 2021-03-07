@@ -34,7 +34,20 @@ export class expensesService {
       })
       .pipe(
         map((data) => {
-          console.log(data);
+          return data;
+        })
+      );
+  }
+  getExpensebyDateandCategory(from: string, to: string) {
+    return this.http
+      .get<any>(
+        `http://localhost:8080/expense/myNetPerCategory/${from}/${to}`,
+        {
+          headers: utilHelpers.headers(),
+        }
+      )
+      .pipe(
+        map((data) => {
           return data;
         })
       );
