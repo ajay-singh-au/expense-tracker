@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class NavBarComponent implements OnInit {
   isLoggedIn: string = '';
-  currentUser: object = {};
+  currentUser: any = {};
   constructor(
     private authenticationServiceHelper: authenticationService,
     private router: Router

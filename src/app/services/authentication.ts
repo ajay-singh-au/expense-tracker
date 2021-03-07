@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
+import { utilHelpers } from '../services/utilHelpers';
 
 @Injectable({
   providedIn: 'root',
@@ -48,5 +49,45 @@ export class authenticationService {
     } catch (Error) {
       return null;
     }
+  }
+  getUserProfile() {
+    return this.http
+      .get<any>(`http://localhost:8080/users/userping`, {
+        headers: utilHelpers.headers(),
+      })
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+  changePassword(currentPassword: string, newPassword: string) {
+    return this.http
+      .post<any>(
+        `http://localhost:8080/users/changepassword`,
+        {
+          newPassword: newPassword,
+          currentPassword: currentPassword,
+        },
+        {
+          headers: utilHelpers.headers(),
+        }
+      )
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+  forgotPassword(email:string) {
+    return this.http
+      .post<any>(`http://localhost:8080/users/forgotpassword`, {
+        email: email,
+      })
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
   }
 }

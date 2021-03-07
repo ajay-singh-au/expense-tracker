@@ -1,0 +1,40 @@
+<div *ngIf="currentUser?.id" class="login-form-container">
+    {{currentUser.id}}<br/>
+    {{currentUser.fname + ' ' + currentUser.lname}}<br/>
+    {{currentUser.email}}<br/>
+    {{currentUser.role.roleName}}<br/>
+    <button (click)="changePassword()" class="login-button" mat-raised-button color="primary"> Change Password</button>
+</div>
+<div *ngIf="change == 'true'">
+    <form [formGroup]="myForm">
+        <br />
+        <br />
+        <mat-form-field>
+          <input
+            required
+            matInput
+            type="password"
+            placeholder="Please Enter Current Password"
+            formControlName="currentPassword"
+            autocomplete="false"
+          />
+          <mat-hint *ngIf="!currentPasswordInput.value">Please Enter Current Password</mat-hint>
+        </mat-form-field>
+        <br />
+        <br />
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Please Enter New Password"
+            type="password"
+            formControlName="newPassword"
+            required
+            autocomplete="false"
+          />
+          <mat-hint *ngIf="!newPasswordInput.value">Please Enter Password</mat-hint>
+        </mat-form-field>
+        <br />
+        <br />
+        <button  (click)="updatePassword()"  mat-raised-button color="primary">Change Password</button>
+      </form>
+</div>
