@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { utilHelpers } from '../services/utilHelpers';
 
 import {
   FormBuilder,
@@ -32,9 +33,10 @@ export class AddExpenseComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {
     this.http
-      .get<any>('http://localhost:8080/category/allm')
+      .get<any>('http://localhost:8080/category/all', {
+        headers: utilHelpers.headers(),
+      })
       .subscribe((data) => {
-        console.log(data);
         this.data = data;
       });
   }
@@ -47,10 +49,14 @@ export class AddExpenseComponent implements OnInit {
   get dateInput() {
     return this.myForm.get('date');
   }
+  get shopNameInput() {
+    return this.myForm.get('shopName');
+  }
   ngOnInit(): void {
     this.myForm = this.fb.group({
       amount: new FormControl('', [Validators.required, Validators.required]),
       category: new FormControl('', [Validators.required, Validators.required]),
+      shopName: new FormControl('', [Validators.required, Validators.required]),
       date: new FormControl('', [Validators.required, Validators.required]),
     });
     this.hide = true;
@@ -60,7 +66,8 @@ export class AddExpenseComponent implements OnInit {
       .addExpense(
         this.categoryInput.value,
         this.amountInput.value,
-        this.dateInput.value
+        this.dateInput.value,
+        this.shopNameInput.value
       )
       .pipe(first())
       .subscribe(

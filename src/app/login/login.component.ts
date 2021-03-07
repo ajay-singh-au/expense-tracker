@@ -57,7 +57,19 @@ export class LoginComponent implements OnInit {
               horizontalPosition: 'right',
               verticalPosition: 'bottom',
             });
-            this.router.navigate(['/employee-dashboard']);
+            if (
+              this.authenticationServiceHelper.getDecodedAccessToken(
+                this.authenticationServiceHelper.currentUserValue
+              ).roles == 'ROLE_ADMIN'
+            ) {
+              this.router.navigate(['/manager-dashboard']);
+            } else if (
+              this.authenticationServiceHelper.getDecodedAccessToken(
+                this.authenticationServiceHelper.currentUserValue
+              ).roles == 'ROLE_USER'
+            ) {
+              this.router.navigate(['/employee-dashboard']);
+            }
           },
           (error) => {
             this.error = error?.error?.error;

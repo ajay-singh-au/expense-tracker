@@ -24,29 +24,21 @@ export class authenticationService {
   // Login Api, Ussername and Password
   login(username: string, password: string) {
     return this.http
-      .post<any>(`https://reqres.in/api/login`, {
+      .post<any>(`http://localhost:8080/users/authenticate`, {
         email: username,
         password: password,
       })
       .pipe(
         map((data) => {
           if (data && data.token) {
-            localStorage.setItem(
-              'currentUser',
-              JSON.stringify(
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXNlcklkIjoibW0iLCJpYXQiOjE1MTYyMzkwMjJ9.MxK7rGBGHliT4FmIlk_o3-bOvbttqIosNH1S-t-pT3M'
-              )
-            );
-            this.currentUserSubject.next(
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXNlcklkIjoibW0iLCJpYXQiOjE1MTYyMzkwMjJ9.MxK7rGBGHliT4FmIlk_o3-bOvbttqIosNH1S-t-pT3M'
-            );
+            localStorage.setItem('currentUser', JSON.stringify(data.token));
+            this.currentUserSubject.next(data.token);
           }
           return data;
         })
       );
   }
   logout() {
-    // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }

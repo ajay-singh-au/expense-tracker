@@ -5,12 +5,23 @@
         <mat-label>Select Category of Expense</mat-label>
         <mat-select [(ngModel)]="selectedValue" formControlName="category">
           <mat-option *ngFor="let data of data" [value]="data.id">
-            {{data.categoryName}}
+            {{data.categoryName | titlecase}}
           </mat-option>
         </mat-select>
         <mat-hint *ngIf="!selectedValue">Please Select Category of Expense</mat-hint>
       </mat-form-field>
       <br/>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Enter Shop Name (Offline/Online)"
+          type="text"
+          formControlName="shopName"
+          required
+          autocomplete="false"
+        />
+        <mat-hint *ngIf="!shopNameInput.value">Please Enter Shop Name</mat-hint>
+      </mat-form-field><br />
       <mat-form-field>
         <input
           matInput
