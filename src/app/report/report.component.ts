@@ -26,13 +26,15 @@ export class ReportComponent implements OnInit {
   }
   dataSource: any;
   displayedColumns: string[] = [
-    'position',
-    'name',
-    'weight',
+    'category',
+    'date',
     'shop',
+    'amount',
+    'percentage',
     'edit',
     'delete',
   ];
+  displayedColumnsCategory: string[] = ['category', 'amount', 'percentage'];
   ciretera = 'date';
   dates: any = {};
   range = new FormGroup({
@@ -41,6 +43,7 @@ export class ReportComponent implements OnInit {
   });
   selectedDateExpenditure = [];
   selectedDateExpenditurebyCategory = [];
+  allExpenses = [];
   fetch() {
     this.expensesServiceHelper
       .getExpensebyDate(
@@ -56,10 +59,15 @@ export class ReportComponent implements OnInit {
           this.dataSource = data;
           let arr = [];
           data.forEach((single) => {
-            arr.push({
-              name: single.date,
-              value: single.amount,
-            });
+            let index = arr.findIndex((e) => e.name === single.date);
+            if (index >= 0) {
+              arr[index].value = arr[index].value + single.amount;
+            } else {
+              arr.push({
+                name: single.date,
+                value: single.amount,
+              });
+            }
           });
           this.selectedDateExpenditure = arr;
           this.expensesServiceHelper
@@ -77,6 +85,21 @@ export class ReportComponent implements OnInit {
               });
               this.selectedDateExpenditurebyCategory = arr;
             });
+          this.expensesServiceHelper.allExpenses().subscribe((data) => {
+            let arr = [];
+            data.forEach((single) => {
+              let index = arr.findIndex((e) => e.name === single.date);
+              if (index >= 0) {
+                arr[index].value = arr[index].value + single.amount;
+              } else {
+                arr.push({
+                  name: single.date,
+                  value: single.amount,
+                });
+              }
+            });
+            this.allExpenses = arr;
+          });
         },
         (error) => {
           console.log(error);
@@ -93,8 +116,8 @@ export class ReportComponent implements OnInit {
       .subscribe(
         (data) => {},
         (error) => {
-          console.log(error.status);
           if (error.status === 200) {
+            this.fetch();
             this._snackBar.open('Expense Deleted Successfully', '', {
               duration: 2000,
               horizontalPosition: 'right',
@@ -109,5 +132,12 @@ export class ReportComponent implements OnInit {
           }
         }
       );
+  }
+  getTotalCost() {
+    let totalCost = 0;
+    this.dataSource.forEach((single) => {
+      totalCost = totalCost + single.amount;
+    });
+    return totalCost;
   }
 }
