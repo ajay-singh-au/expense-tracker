@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {EmployeeService} from '../services/employees';
+import { EmployeeService } from '../services/employees';
 
 @Component({
   selector: 'manager-dashboard',
