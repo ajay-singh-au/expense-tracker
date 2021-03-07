@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.myForm = this.fb.group({
       email: new FormControl('', [Validators.email, Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.min(3)]),
+      password: new FormControl('', [Validators.required]),
     });
     this.hide = true;
   }
@@ -78,6 +78,37 @@ export class LoginComponent implements OnInit {
               horizontalPosition: 'right',
               verticalPosition: 'bottom',
             });
+          }
+        );
+    }
+  }
+  forgot() {
+    if (!this.emailInput.value) {
+      this._snackBar.open('Please enter Email ID', '', {
+        duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+      });
+    } else {
+      this.authenticationServiceHelper
+        .forgotPassword(this.emailInput.value)
+        .pipe(first())
+        .subscribe(
+          (data) => {},
+          (error) => {
+            if (error.status === 200) {
+              this._snackBar.open('Password sent on Email Successfully!!', '', {
+                duration: 2000,
+                horizontalPosition: 'right',
+                verticalPosition: 'bottom',
+              });
+            } else {
+              this._snackBar.open(error.error, '', {
+                duration: 2000,
+                horizontalPosition: 'right',
+                verticalPosition: 'bottom',
+              });
+            }
           }
         );
     }
