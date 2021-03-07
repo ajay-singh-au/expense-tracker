@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { utilHelpers } from '../services/utilHelpers';
 
 import {
   FormBuilder,
@@ -33,10 +34,7 @@ export class AddExpenseComponent implements OnInit {
   ) {
     this.http
       .get<any>('http://localhost:8080/category/all', {
-        headers: new HttpHeaders().set(
-          'Authorization',
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzd2F4QGdtYWlsLmNvbSIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNjE1MDQ2MTEyLCJleHAiOjE2MTUwNjQxMTJ9.cJmxd83UPXwKvfZ-2sCbG9AZzA067-l3Q9D64-mk3Fc'
-        ),
+        headers: utilHelpers.headers(),
       })
       .subscribe((data) => {
         console.log(data);

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { getDates } from '../services/getDates';
+import { utilHelpers } from '../services/utilHelpers';
 import { expensesService } from '../services/expenses';
 import { first } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -12,7 +12,14 @@ import * as moment from 'moment';
 })
 export class ReportComponent implements OnInit {
   constructor(private expensesServiceHelper: expensesService) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.range.valueChanges.subscribe(() => {
+      if (this.range.value.from && this.range.value.to) {
+        this.dates.from = this.range.value.from;
+        this.dates.to = this.range.value.to;
+      }
+    });
+  }
   dataSource: any;
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   ciretera = 'date';
@@ -22,39 +29,26 @@ export class ReportComponent implements OnInit {
     to: new FormControl(),
   });
   fetch() {
-    console.log(this.ciretera);
-    if (this.ciretera == 'custom') {
-      this.expensesServiceHelper
-        .getExpensebyDate(this.dates.from, this.dates.to)
-        .pipe(first())
-        .subscribe(
-          (data) => {
-            console.log(data);
-            this.dataSource = data;
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-    } else if (this.ciretera == 'date') {
-      this.expensesServiceHelper
-        .getExpensebyDate(
-          moment(this.range.value.from).format('YYYY-MM-DD'),
-          moment(this.range.value.to).format('YYYY-MM-DD')
-        )
-        .pipe(first())
-        .subscribe(
-          (data) => {
-            console.log(data);
-            this.dataSource = data;
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-    }
+    this.expensesServiceHelper
+      .getExpensebyDate(
+        moment(this.dates.from).format('YYYY-MM-DD'),
+        moment(this.dates.to).format('YYYY-MM-DD')
+      )
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          console.log(data);
+          data.sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          );
+          this.dataSource = data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
   updateDates(e: any) {
-    this.dates = getDates.getDatesFunction(e);
+    this.dates = utilHelpers.getDatesFunction(e);
   }
 }

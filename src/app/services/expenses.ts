@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { utilHelpers } from '../services/utilHelpers';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +17,7 @@ export class expensesService {
           amount: amount,
         },
         {
-          headers: new HttpHeaders().set(
-            'Authorization',
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzd2F4QGdtYWlsLmNvbSIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNjE1MDQ2MTEyLCJleHAiOjE2MTUwNjQxMTJ9.cJmxd83UPXwKvfZ-2sCbG9AZzA067-l3Q9D64-mk3Fc'
-          ),
+          headers: utilHelpers.headers(),
         }
       )
       .pipe(
@@ -29,13 +27,9 @@ export class expensesService {
       );
   }
   getExpensebyDate(from: string, to: string) {
-    console.log(from, to);
     return this.http
       .get<any>(`http://localhost:8080/expense/findBw/${from}/${to}`, {
-        headers: new HttpHeaders().set(
-          'Authorization',
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzd2F4QGdtYWlsLmNvbSIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNjE1MDQ2MTEyLCJleHAiOjE2MTUwNjQxMTJ9.cJmxd83UPXwKvfZ-2sCbG9AZzA067-l3Q9D64-mk3Fc'
-        ),
+        headers: utilHelpers.headers(),
       })
       .pipe(
         map((data) => {

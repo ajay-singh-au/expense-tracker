@@ -1,6 +1,10 @@
 import * as moment from 'moment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { authenticationService } from '../services/authentication';
 
-export class getDates {
+export class utilHelpers {
+  constructor(public _snackBar: MatSnackBar) {}
   static getDatesFunction(value: string) {
     let date = new Date();
     if (value == 'today') {
@@ -62,5 +66,18 @@ export class getDates {
         to: end,
       };
     }
+  }
+  static headers() {
+    let token = JSON.parse(localStorage.getItem('currentUser'));
+    let header = new HttpHeaders();
+    header = header.set('Authorization', `Bearer ${token}`);
+    return header;
+  }
+  snackbar() {
+    this._snackBar.open('Login Successfully', '', {
+      duration: 2000,
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+    });
   }
 }
