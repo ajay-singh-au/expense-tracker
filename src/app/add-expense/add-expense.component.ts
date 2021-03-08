@@ -24,7 +24,6 @@ export class AddExpenseComponent implements OnInit {
   myForm: FormGroup;
   selectedValue: string;
   maxDate = new Date();
-  hide: boolean;
   error: String = '';
   constructor(
     private http: HttpClient,
@@ -59,7 +58,6 @@ export class AddExpenseComponent implements OnInit {
       shopName: new FormControl('', [Validators.required, Validators.required]),
       date: new FormControl('', [Validators.required, Validators.required]),
     });
-    this.hide = true;
   }
   addExpense() {
     if (

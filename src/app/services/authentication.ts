@@ -50,9 +50,9 @@ export class authenticationService {
       return null;
     }
   }
-  getUserProfile() {
+  getUserProfile(roles) {
     return this.http
-      .get<any>(`http://localhost:8080/users/userping`, {
+      .get<any>(`http://localhost:8080/users/${roles}`, {
         headers: utilHelpers.headers(),
       })
       .pipe(
@@ -79,7 +79,7 @@ export class authenticationService {
         })
       );
   }
-  forgotPassword(email:string) {
+  forgotPassword(email: string) {
     return this.http
       .post<any>(`http://localhost:8080/users/forgotpassword`, {
         email: email,

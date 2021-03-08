@@ -26,7 +26,19 @@ export class LoginComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {
     if (this.authenticationServiceHelper.currentUserValue) {
-      this.router.navigate(['/employee-dashboard']);
+      if (
+        this.authenticationServiceHelper.getDecodedAccessToken(
+          this.authenticationServiceHelper.currentUserValue
+        ).roles == 'ROLE_ADMIN'
+      ) {
+        this.router.navigate(['/manager-dashboard']);
+      } else if (
+        this.authenticationServiceHelper.getDecodedAccessToken(
+          this.authenticationServiceHelper.currentUserValue
+        ).roles == 'ROLE_USER'
+      ) {
+        this.router.navigate(['/employee-dashboard']);
+      }
     }
   }
   get emailInput() {

@@ -20,6 +20,7 @@ export class NavBarComponent implements OnInit {
           x
         );
         this.isLoggedIn = x;
+        this.router.navigate(['/']);
       });
     }
   }
