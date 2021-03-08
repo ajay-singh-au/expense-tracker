@@ -45,6 +45,8 @@ export class ReportComponent implements OnInit {
   selectedDateExpenditurebyCategory = [];
   allExpenses = [];
   fetch() {
+    if (!this.dates.from) this.dates.from = new Date();
+    if (!this.dates.to) this.dates.to = new Date();
     this.expensesServiceHelper
       .getExpensebyDate(
         moment(this.dates.from).format('YYYY-MM-DD'),
@@ -86,6 +88,9 @@ export class ReportComponent implements OnInit {
               this.selectedDateExpenditurebyCategory = arr;
             });
           this.expensesServiceHelper.allExpenses().subscribe((data) => {
+            data.sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            );
             let arr = [];
             data.forEach((single) => {
               let index = arr.findIndex((e) => e.name === single.date);

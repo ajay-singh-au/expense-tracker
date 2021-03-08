@@ -14,10 +14,7 @@
 		</a>
 	</div>
   <div *ngIf="currentUser?.roles == 'ROLE_ADMIN'">; else elseBlock">
-		<a routerLink="/employee-reports" class="login-button-container">
-			<button class="login-button" mat-raised-button color="primary"> Expense Reports </button>
-		</a>
-    <a routerLink="/employee-reports" class="login-button-container">
+    <a routerLink="/user-profile" class="login-button-container">
 			<button class="login-button" mat-raised-button color="primary"> User Profile </button>
 		</a>
 		<a class="login-button-container">

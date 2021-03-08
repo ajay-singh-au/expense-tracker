@@ -19,21 +19,23 @@ export class ProtectedRoute implements CanActivate, CanActivateChild {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    if (this.authenticationServiceHelper.currentUserValue()) {
+    if (this.authenticationServiceHelper.currentUserValue) {
       return true;
+    } else {
+      this.router.navigate(['/']);
+      return false;
     }
-    this.router.navigate['/'];
-    return false;
   }
 
   canActivateChild(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    if (this.authenticationServiceHelper.currentUserValue()) {
+    if (this.authenticationServiceHelper.currentUserValue) {
       return true;
+    } else {
+      this.router.navigate(['/']);
+      return false;
     }
-    this.router.navigate['/'];
-    return false;
   }
 }

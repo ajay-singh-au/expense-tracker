@@ -14,6 +14,7 @@ import { EmployeeTableComponent } from './employee-table/employee-table.componen
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProtectedRoute } from './protected-router.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
@@ -83,9 +84,9 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     MatSlideToggleModule,
     MatRadioModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
   ],
-  providers: [EmployeeService],
+  providers: [ProtectedRoute, EmployeeService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

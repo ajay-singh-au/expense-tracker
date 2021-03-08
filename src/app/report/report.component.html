@@ -157,7 +157,7 @@
 </mat-card>
 
 <br/><br/>
-<h2 class="example-h2">Total Expenses  </h2>
+<h2 class="example-h2">Total Expenses from {{this.allExpenses[this.allExpenses.length - 1]?.name | date:'fullDate'}} to {{this.allExpenses[0]?.name| date:'fullDate'}} </h2>
 <mat-card *ngIf="allExpenses" style="margin-top: 0rem;display: flex;">
 <mat-card-content>
 <ngx-charts-bar-vertical 

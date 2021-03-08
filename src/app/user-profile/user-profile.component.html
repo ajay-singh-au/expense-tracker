@@ -1,10 +1,14 @@
-<div *ngIf="currentUser?.id" class="login-form-container">
-    {{currentUser.id}}<br/>
-    {{currentUser.fname + ' ' + currentUser.lname}}<br/>
-    {{currentUser.email}}<br/>
-    {{currentUser.role.roleName}}<br/>
+<mat-card *ngIf="currentUser?.id"  class="login-form-container">
+  <mat-card-content>
+    User ID - {{currentUser.id}}<br/>
+    User Name - {{currentUser.fname + ' ' + currentUser.lname}}<br/>
+    User Email - {{currentUser.email}}<br/>
+    User Role - {{currentUser.role.roleName}}<br/><br/><br/>
     <button (click)="changePassword()" class="login-button" mat-raised-button color="primary"> Change Password</button>
-</div>
+  </mat-card-content>
+</mat-card>
+<mat-card style="margin-top: 0rem;display: flex;  place-items: center;">
+  <mat-card-content>
 <div *ngIf="change == 'true'">
     <form [formGroup]="myForm">
         <br />
@@ -35,6 +39,8 @@
         </mat-form-field>
         <br />
         <br />
-        <button  (click)="updatePassword()"  mat-raised-button color="primary">Change Password</button>
+        <button  (click)="updatePassword()"  mat-raised-button color="warn">Update Password</button>
       </form>
 </div>
+</mat-card-content>
+</mat-card>

@@ -26,7 +26,19 @@ export class LoginComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {
     if (this.authenticationServiceHelper.currentUserValue) {
-      this.router.navigate(['/employee-dashboard']);
+      if (
+        this.authenticationServiceHelper.getDecodedAccessToken(
+          this.authenticationServiceHelper.currentUserValue
+        ).roles == 'ROLE_ADMIN'
+      ) {
+        this.router.navigate(['/manager-dashboard']);
+      } else if (
+        this.authenticationServiceHelper.getDecodedAccessToken(
+          this.authenticationServiceHelper.currentUserValue
+        ).roles == 'ROLE_USER'
+      ) {
+        this.router.navigate(['/employee-dashboard']);
+      }
     }
   }
   get emailInput() {
@@ -44,6 +56,11 @@ export class LoginComponent implements OnInit {
   }
   login() {
     if (this.myForm.invalid) {
+      this._snackBar.open('Please fill all the Required Fields', '', {
+        duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+      });
       return;
     }
     if (this.emailInput.value && this.passwordInput.value) {

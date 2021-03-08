@@ -35,22 +35,38 @@ export class UserProfileComponent implements OnInit {
     private authenticationServiceHelper: authenticationService,
     private _snackBar: MatSnackBar
   ) {
-    this.authenticationServiceHelper
-      .getUserProfile()
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          this.currentUser = data;
-        },
-        (error) => {
-          console.log(error);
-        }
+    this.authenticationServiceHelper.currentUser.subscribe((x) => {
+      this.currentUser = this.authenticationServiceHelper.getDecodedAccessToken(
+        x
       );
+      let roles = '';
+      if (this.currentUser?.roles.includes('USER')) roles = 'userping';
+      if (this.currentUser?.roles.includes('ADMIN')) roles = 'adminping';
+      this.authenticationServiceHelper
+        .getUserProfile(roles)
+        .pipe(first())
+        .subscribe(
+          (data) => {
+            this.currentUser = data;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    });
   }
   changePassword() {
     this.change = 'true';
   }
   updatePassword() {
+    if (!this.currentPasswordInput.value) {
+      this._snackBar.open('Please Enter Current Password!!', '', {
+        duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+      });
+      return;
+    }
     this.authenticationServiceHelper
       .changePassword(
         this.currentPasswordInput.value,
