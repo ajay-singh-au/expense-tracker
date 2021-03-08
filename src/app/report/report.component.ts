@@ -31,7 +31,6 @@ export class ReportComponent implements OnInit {
     'shop',
     'amount',
     'percentage',
-    'edit',
     'delete',
   ];
   displayedColumnsCategory: string[] = ['category', 'amount', 'percentage'];
