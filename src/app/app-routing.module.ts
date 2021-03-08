@@ -15,22 +15,27 @@ const routes: Routes = [
   {
     path: 'employee-dashboard',
     component: EmployeeDashboardComponent,
+    canActivate: [ProtectedRoute],
   },
   {
     path: 'manager-dashboard',
     component: ManagerDashboardComponent,
+    canActivate: [ProtectedRoute],
   },
   {
     path: 'manager-dashboard/register-employee',
-    component: RegisterEmployeeComponent
+    component: RegisterEmployeeComponent,
+    canActivate: [ProtectedRoute],
   },
   {
     path: 'user-profile',
     component: UserProfileComponent,
+    canActivate: [ProtectedRoute],
   },
   {
     path: 'employee-reports',
     component: ReportComponent,
+    canActivate: [ProtectedRoute],
   },
   { path: '**', component: NotFoundComponent },
 ];

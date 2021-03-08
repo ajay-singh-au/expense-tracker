@@ -45,6 +45,8 @@ export class ReportComponent implements OnInit {
   selectedDateExpenditurebyCategory = [];
   allExpenses = [];
   fetch() {
+    if (!this.dates.from) this.dates.from = new Date();
+    if (!this.dates.to) this.dates.to = new Date();
     this.expensesServiceHelper
       .getExpensebyDate(
         moment(this.dates.from).format('YYYY-MM-DD'),

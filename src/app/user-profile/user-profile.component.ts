@@ -51,6 +51,14 @@ export class UserProfileComponent implements OnInit {
     this.change = 'true';
   }
   updatePassword() {
+    if (!this.currentPasswordInput.value) {
+      this._snackBar.open('Please Enter Current Password!!', '', {
+        duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+      });
+      return;
+    }
     this.authenticationServiceHelper
       .changePassword(
         this.currentPasswordInput.value,
