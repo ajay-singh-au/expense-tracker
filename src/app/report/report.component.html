@@ -53,7 +53,7 @@
   </mat-card-content>
 </mat-card>
 <br/><br/>
-<div *ngIf="dataSource">
+<div *ngIf="dataSource" id="contentToConvert">
   <h2 class="example-h2">Expenses from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
   <table matTableExporter #exporter="matTableExporter" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
      <ng-container matColumnDef="category">
@@ -110,6 +110,7 @@
      >
        XLS
      </button>
+     <button (click)="generatePDF()">Generate PDF</button>
    </div>
  </div>
   <br/>

@@ -5,6 +5,10 @@ import { expensesService } from '../services/expenses';
 import { first } from 'rxjs/operators';
 import * as moment from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
+import { BehaviorSubject, Observable, fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report',
@@ -43,6 +47,55 @@ export class ReportComponent implements OnInit {
   selectedDateExpenditure = [];
   selectedDateExpenditurebyCategory = [];
   allExpenses = [];
+  generatePDF() {
+    // Get the document to be downloaded.
+    var data = document.getElementById('contentToConvert');
+    html2canvas(data).then((canvas) => {
+      var imgWidth = 200;
+      var pageHeight = 400;
+      var imgHeight = (canvas.height * imgWidth) / canvas.width;
+      var heightLeft = imgHeight;
+      var position = 0;
+      const contentDataURL = canvas.toDataURL('image/JPEG');
+      var pdf = new jspdf('p', 'mm', 'a4', true);
+      pdf.addImage(contentDataURL, 'JPEG', 5, 0, 200, 287, undefined, 'FAST');
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(contentDataURL, 'JPEG', 5, 0, 200, 287, undefined, 'FAST');
+        heightLeft -= pageHeight;
+      }
+      // Blob given by JSPDF.
+      console.log(typeof pdf.output('blob'));
+      // Blob converted by JSPDF.
+      var blobPDF = new Blob([pdf.output()], { type: 'application/pdf' });
+      console.log(typeof blobPDF);
+      // function to get BASE64 encoded.
+      function toBase64(blob: Blob): Observable<string> {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        return fromEvent(reader, 'load').pipe(
+          map(() => (reader.result as string).split(',')[1])
+        );
+      }
+      // make request after conversion.
+      toBase64(blobPDF).subscribe((base64) => {
+        console.log(base64);
+        this.expensesServiceHelper
+          .sendExpenseReport(base64)
+          .pipe(first())
+          .subscribe(
+            (data) => {
+              console.log(data);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      });
+      pdf.save('newPDF.pdf');
+    });
+  }
   fetch() {
     if (!this.dates.from) this.dates.from = new Date();
     if (!this.dates.to) this.dates.to = new Date();
