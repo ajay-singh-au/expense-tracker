@@ -4,7 +4,7 @@
     <input
       matInput
       (keyup)="applyFilter($event.target.value)"
-      placeholder="Ex. ium"
+      placeholder="Ex. 1 (employee id)"
       #input
     />
   </mat-form-field>
@@ -40,7 +40,7 @@
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <th mat-header-cell *matHeaderCellDef>Email</th>
       <td mat-cell *matCellDef="let element">{{ element.user.email }}</td>
     </ng-container>
 
@@ -75,28 +75,14 @@
         color="primary"
         (click)="exporter.exportTable('csv', { fileName: 'Expenses Report' })"
       >
-        CSV
+        CSV (Excel Compatible)
       </button>
       <button
         mat-raised-button
         color="primary"
         (click)="exporter.exportTable('xls', { fileName: 'Expenses Report' })"
       >
-        XLS
-      </button>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="exporter.exportTable('json', { fileName: 'Expenses Report' })"
-      >
-        JSON
-      </button>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="exporter.exportTable('txt', { fileName: 'Expenses Report' })"
-      >
-        TXT
+        Excel File
       </button>
     </div>
   </div>
