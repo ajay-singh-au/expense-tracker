@@ -12,17 +12,18 @@ import { first } from 'rxjs/operators';
 @Component({
   selector: 'register-employee',
   templateUrl: './register-employee.component.html',
-  styleUrls: ['./register-employee.component.css']
+  styleUrls: ['./register-employee.component.css'],
 })
 export class RegisterEmployeeComponent implements OnInit {
-  registerForm:FormGroup;
-  error: String = ""
+  registerForm: FormGroup;
+  error: String = '';
 
   constructor(
     private fb: FormBuilder,
-    private _snackBar: MatSnackBar, 
-    private registerUser: ManagerService) {}
-    
+    private _snackBar: MatSnackBar,
+    private registerUser: ManagerService
+  ) {}
+
   get fnameInput() {
     return this.registerForm.get('fname');
   }
@@ -40,25 +41,36 @@ export class RegisterEmployeeComponent implements OnInit {
       id: new FormControl('', [Validators.required]),
       fname: new FormControl('', [Validators.required]),
       lname: new FormControl('', [Validators.required]),
-      email: new FormControl('',  [Validators.required, Validators.required]),
-      role: new FormControl('',  [Validators.required, Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.required]),
+      role: new FormControl('', [Validators.required, Validators.required]),
     });
   }
   register() {
-    if(this.fnameInput.value && this.lnameInput.value && this.emailInput.value && this.roleInput.value){
-    this.registerUser.registerUser(this.fnameInput.value, this.lnameInput.value,this.emailInput.value,this.roleInput.value)
+    if (
+      this.fnameInput.value &&
+      this.lnameInput.value &&
+      this.emailInput.value &&
+      this.roleInput.value
+    ) {
+      this.registerUser
+        .registerUser(
+          this.fnameInput.value,
+          this.lnameInput.value,
+          this.emailInput.value,
+          this.roleInput.value
+        )
         .pipe(first())
         .subscribe(
           (data) => {
-            console.log("response si this slkdaf", data)
-            console.log("hello hello")
-            this._snackBar.open(`User Registered Successfully!, Employee's ID is${data.id}, an email with login credentialis is sent to ${data.email}`, '', {
-              duration: 10000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-            });
-            console.log("response si this slkdaf", data)
-
+            this._snackBar.open(
+              `User Registered Successfully!, Employee's ID is${data.id}, an email with login credentialis is sent to ${data.email}`,
+              '',
+              {
+                duration: 10000,
+                horizontalPosition: 'center',
+                verticalPosition: 'top',
+              }
+            );
           },
           (error) => {
             this.error = error?.error?.error;
@@ -69,16 +81,12 @@ export class RegisterEmployeeComponent implements OnInit {
             });
           }
         );
-      console.log(this.fnameInput.value);
-      console.log(this.lnameInput.value);
-      console.log(this.emailInput.value);
-      console.log(this.roleInput.value);
-  } else {
-        this._snackBar.open('Please Fill all Fields', '', {
+    } else {
+      this._snackBar.open('Please Fill all Fields', '', {
         duration: 2000,
         horizontalPosition: 'right',
         verticalPosition: 'bottom',
       });
-    } 
+    }
   }
 }

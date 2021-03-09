@@ -18,12 +18,22 @@ const routes: Routes = [
     canActivate: [ProtectedRoute],
   },
   {
-    path: 'manager-dashboard',
+    path: 'add-expense/:userid',
+    component: EmployeeDashboardComponent,
+    canActivate: [ProtectedRoute],
+  },
+  {
+    path: 'reports/:userid',
+    component: ReportComponent,
+    canActivate: [ProtectedRoute],
+  },
+  {
+    path: 'all-users',
     component: ManagerDashboardComponent,
     canActivate: [ProtectedRoute],
   },
   {
-    path: 'manager-dashboard/register-employee',
+    path: 'register-employee',
     component: RegisterEmployeeComponent,
     canActivate: [ProtectedRoute],
   },

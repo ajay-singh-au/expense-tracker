@@ -5,7 +5,7 @@ import { first } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { utilHelpers } from '../services/utilHelpers';
-
+import { ActivatedRoute } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -21,6 +21,7 @@ import { expensesService } from '../services/expenses';
 })
 export class AddExpenseComponent implements OnInit {
   data: any;
+  userId = '';
   myForm: FormGroup;
   selectedValue: string;
   maxDate = new Date();
@@ -29,7 +30,8 @@ export class AddExpenseComponent implements OnInit {
     private http: HttpClient,
     private fb: FormBuilder,
     private expensesServiceHelper: expensesService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {
     this.http
       .get<any>('http://localhost:8080/category/all', {
@@ -58,54 +60,29 @@ export class AddExpenseComponent implements OnInit {
       shopName: new FormControl('', [Validators.required, Validators.required]),
       date: new FormControl('', [Validators.required, Validators.required]),
     });
+    this.route.params.subscribe((params) => (this.userId = params['userid']));
   }
   addExpense() {
-    if (
-      !this.categoryInput.value ||
-      !this.amountInput.value ||
-      !this.dateInput.value ||
-      !this.shopNameInput.value
-    ) {
-      this._snackBar.open('Please fill all the Required Fields', '', {
-        duration: 2000,
-        horizontalPosition: 'right',
-        verticalPosition: 'bottom',
-      });
-      return;
-    }
     this.expensesServiceHelper
       .addExpense(
         this.categoryInput.value,
         this.amountInput.value,
         this.dateInput.value,
-        this.shopNameInput.value
+        this.shopNameInput.value,
+        this.userId
       )
       .pipe(first())
       .subscribe(
         (data) => {
-          this._snackBar.open('Expense Added Successfully!!', '', {
-            duration: 2000,
-            horizontalPosition: 'right',
-            verticalPosition: 'bottom',
-          });
-          this.myForm = this.fb.group({
-            amount: new FormControl('', [
-              Validators.required,
-              Validators.required,
-            ]),
-            category: new FormControl('', [
-              Validators.required,
-              Validators.required,
-            ]),
-            shopName: new FormControl('', [
-              Validators.required,
-              Validators.required,
-            ]),
-            date: new FormControl('', [
-              Validators.required,
-              Validators.required,
-            ]),
-          });
+          this._snackBar.open(
+            `Expense Added Successfully!! for ${data?.user?.fname}`,
+            '',
+            {
+              duration: 2000,
+              horizontalPosition: 'right',
+              verticalPosition: 'bottom',
+            }
+          );
         },
         (error) => {
           this.error = error?.message;

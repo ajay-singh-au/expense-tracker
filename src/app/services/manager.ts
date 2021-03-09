@@ -10,12 +10,11 @@ export class ManagerService {
   constructor(private http: HttpClient) {}
   getEmployee() {
     return this.http
-      .get<any>(`http://localhost:8080/expense/all`, {
+      .get<any>(`http://localhost:8080/expense/netPerUser`, {
         headers: utilHelpers.headers(),
       })
       .pipe(
         map((data) => {
-          console.log("get all user", data);
           return data;
         })
       );
@@ -24,11 +23,11 @@ export class ManagerService {
   registerUser(fname: string, lname: string, email: string, role: string) {
     return this.http
       .post<any>(
-       `http://localhost:8080/users/register/${role}`,
+        `http://localhost:8080/users/register/${role}`,
         {
-          email:email,
-          fname:fname,
-          lname:lname
+          email: email,
+          fname: fname,
+          lname: lname,
         },
         {
           headers: utilHelpers.headers(),
