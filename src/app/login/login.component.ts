@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
           this.authenticationServiceHelper.currentUserValue
         ).roles == 'ROLE_ADMIN'
       ) {
-        this.router.navigate(['/manager-dashboard']);
+        this.router.navigate(['/all-users']);
       } else if (
         this.authenticationServiceHelper.getDecodedAccessToken(
           this.authenticationServiceHelper.currentUserValue
@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
                 this.authenticationServiceHelper.currentUserValue
               ).roles == 'ROLE_ADMIN'
             ) {
-              this.router.navigate(['/manager-dashboard']);
+              this.router.navigate(['/all-users']);
             } else if (
               this.authenticationServiceHelper.getDecodedAccessToken(
                 this.authenticationServiceHelper.currentUserValue

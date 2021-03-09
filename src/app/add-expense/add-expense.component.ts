@@ -74,7 +74,6 @@ export class AddExpenseComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log(data);
           this._snackBar.open(
             `Expense Added Successfully!! for ${data?.user?.fname}`,
             '',

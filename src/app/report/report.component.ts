@@ -113,9 +113,7 @@ export class ReportComponent implements OnInit {
               this.allExpenses = arr;
             });
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => {}
       );
   }
   updateDates(e: any) {

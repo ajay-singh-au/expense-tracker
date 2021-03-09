@@ -16,7 +16,6 @@ export class AppComponent implements OnInit {
             this.authenticationServiceHelper.getDecodedAccessToken(x).exp *
             1000;
           if (expTime < new Date().getTime()) {
-            console.log('Session Expired');
             this.authenticationServiceHelper.logout();
           }
         }

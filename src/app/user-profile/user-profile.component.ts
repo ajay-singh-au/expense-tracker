@@ -49,9 +49,7 @@ export class UserProfileComponent implements OnInit {
           (data) => {
             this.currentUser = data;
           },
-          (error) => {
-            console.log(error);
-          }
+          (error) => {}
         );
     });
   }

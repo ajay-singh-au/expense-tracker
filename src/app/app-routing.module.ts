@@ -28,12 +28,12 @@ const routes: Routes = [
     canActivate: [ProtectedRoute],
   },
   {
-    path: 'manager-dashboard',
+    path: 'all-users',
     component: ManagerDashboardComponent,
     canActivate: [ProtectedRoute],
   },
   {
-    path: 'manager-dashboard/register-employee',
+    path: 'register-employee',
     component: RegisterEmployeeComponent,
     canActivate: [ProtectedRoute],
   },
