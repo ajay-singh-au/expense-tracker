@@ -8,10 +8,19 @@ import { utilHelpers } from '../services/utilHelpers';
 })
 export class expensesService {
   constructor(private http: HttpClient) {}
-  addExpense(category: string, amount: string, date: string, shopName: string) {
+  addExpense(
+    category: string,
+    amount: string,
+    date: string,
+    shopName: string,
+    userId: string
+  ) {
+    let url = `http://localhost:8080/expense/add/${category}`;
+    if (typeof userId != 'undefined')
+      url = `http://localhost:8080/expense/add/${userId}/${category}`;
     return this.http
       .post<any>(
-        `http://localhost:8080/expense/add/${category}`,
+        `${url}`,
         {
           date: date,
           amount: amount,
@@ -27,9 +36,12 @@ export class expensesService {
         })
       );
   }
-  getExpensebyDate(from: string, to: string) {
+  getExpensebyDate(from: string, to: string, userId: string) {
+    let url = `http://localhost:8080/expense/findBy/*/${from}/${to}`;
+    if (typeof userId != 'undefined')
+      url = `http://localhost:8080/expense/findBy/${userId}/*/${from}/${to}`;
     return this.http
-      .get<any>(`http://localhost:8080/expense/findBy/*/${from}/${to}`, {
+      .get<any>(`${url}`, {
         headers: utilHelpers.headers(),
       })
       .pipe(
@@ -52,9 +64,12 @@ export class expensesService {
         })
       );
   }
-  allExpenses() {
+  allExpenses(userId: string) {
+    let url = `http://localhost:8080/expense/my`;
+    if (typeof userId != 'undefined')
+      url = `http://localhost:8080/expense/findByUser/${userId}`;
     return this.http
-      .get<any>(`http://localhost:8080/expense/my`, {
+      .get<any>(`${url}`, {
         headers: utilHelpers.headers(),
       })
       .pipe(

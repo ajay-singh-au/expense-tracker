@@ -5,6 +5,7 @@ import { expensesService } from '../services/expenses';
 import { first } from 'rxjs/operators';
 import * as moment from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-report',
@@ -12,9 +13,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./report.component.css'],
 })
 export class ReportComponent implements OnInit {
+  userId = '';
   constructor(
     private expensesServiceHelper: expensesService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
     this.range.valueChanges.subscribe(() => {
@@ -23,6 +26,7 @@ export class ReportComponent implements OnInit {
         this.dates.to = this.range.value.to;
       }
     });
+    this.route.params.subscribe((params) => (this.userId = params['userid']));
   }
   dataSource: any;
   displayedColumns: string[] = [
@@ -49,7 +53,8 @@ export class ReportComponent implements OnInit {
     this.expensesServiceHelper
       .getExpensebyDate(
         moment(this.dates.from).format('YYYY-MM-DD'),
-        moment(this.dates.to).format('YYYY-MM-DD')
+        moment(this.dates.to).format('YYYY-MM-DD'),
+        this.userId
       )
       .pipe(first())
       .subscribe(
@@ -86,24 +91,27 @@ export class ReportComponent implements OnInit {
               });
               this.selectedDateExpenditurebyCategory = arr;
             });
-          this.expensesServiceHelper.allExpenses().subscribe((data) => {
-            data.sort(
-              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-            );
-            let arr = [];
-            data.forEach((single) => {
-              let index = arr.findIndex((e) => e.name === single.date);
-              if (index >= 0) {
-                arr[index].value = arr[index].value + single.amount;
-              } else {
-                arr.push({
-                  name: single.date,
-                  value: single.amount,
-                });
-              }
+          this.expensesServiceHelper
+            .allExpenses(this.userId)
+            .subscribe((data) => {
+              data.sort(
+                (a, b) =>
+                  new Date(b.date).getTime() - new Date(a.date).getTime()
+              );
+              let arr = [];
+              data.forEach((single) => {
+                let index = arr.findIndex((e) => e.name === single.date);
+                if (index >= 0) {
+                  arr[index].value = arr[index].value + single.amount;
+                } else {
+                  arr.push({
+                    name: single.date,
+                    value: single.amount,
+                  });
+                }
+              });
+              this.allExpenses = arr;
             });
-            this.allExpenses = arr;
-          });
         },
         (error) => {
           console.log(error);
