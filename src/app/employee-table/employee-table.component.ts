@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeDetails } from './EmployeeDetails';
-import { EmployeeService} from "../services/employees";
+import { ManagerService} from "../services/manager";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Input } from '@angular/core';
@@ -27,7 +27,7 @@ export class EmployeeTableComponent implements OnInit {
   
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  constructor(private service: EmployeeService){}
+  constructor(private service: ManagerService){}
 
   ngOnInit(){
     this.dataSource.paginator = this.paginator;

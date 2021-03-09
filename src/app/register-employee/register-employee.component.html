@@ -1,23 +1,12 @@
-<a  routerLink="/manager-dashboard"><button class="back-button" mat-button mat-raised-button color="primary" ><mat-icon matSuffix>arrow_backward</mat-icon> &nbsp; Dashboard</button></a>
+<a routerLink="/manager-dashboard"
+  ><button class="back-button" mat-button mat-raised-button color="primary">
+    <mat-icon matSuffix>arrow_backward</mat-icon> &nbsp; Dashboard
+  </button></a
+>
 <div class="login-form-container">
   <h1>Register New Employee</h1>
   <br />
   <form [formGroup]="registerForm">
-    <mat-form-field appearance="fill">
-      <mat-label>Employee Id</mat-label>
-      <input
-        matInput
-        required
-        matInput
-        type="number"
-        placeholder="Enter Employee Id"
-        formControlName="id"
-        autocomplete="false"
-      />
-      <mat-icon matSuffix>fingerprint</mat-icon>
-      <mat-hint *ngIf="!idInput.value">Please Enter Employee Id</mat-hint>
-    </mat-form-field>
-
     <mat-form-field appearance="fill">
       <mat-label>First Name</mat-label>
       <input
@@ -25,7 +14,7 @@
         matInput
         type="text"
         placeholder="Enter Employee's First Name"
-        formControlName="id"
+        formControlName="fname"
         autocomplete="false"
       />
       <mat-icon matSuffix>badge</mat-icon>
@@ -70,45 +59,11 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Role</mat-label>
-      <mat-select>
-        <mat-option value="employee">Employee Manager</mat-option>
-        <mat-option value="manager">Employee</mat-option>
+      <mat-select formControlName="role" required>
+        <mat-option value="ADMIN">Employee Manager</mat-option>
+        <mat-option value="USER">Employee</mat-option>
       </mat-select>
     </mat-form-field>
-
-    <!-- <mat-form-field appearance="fill">
-      <mat-label>Password</mat-label>
-      <input
-        required
-        matInput
-        type="text"
-        placeholder="Enter password"
-        formControlName="password"
-        autocomplete="false"
-      />
-      <mat-icon matSuffix>lock</mat-icon>
-      <mat-hint *ngIf="!passwordInput.value">Please Enter Password</mat-hint>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Repeat Password</mat-label>
-      <input
-        required
-        matInput
-        type="text"
-        placeholder="Repeat password"
-        formControlName="rpassword"
-        autocomplete="false"
-      />
-      <mat-icon matSuffix>lock</mat-icon>
-      <mat-hint *ngIf="!rpasswordInput.value"
-        >Please Re-Enter Password</mat-hint
-      >
-    </mat-form-field> -->
-
-    <!-- <mat-hint *ngIf="!rpasswordInput.value == passwordInput.value"
-      >Pass don't match</mat-hint
-    > -->
     <button (click)="register()" mat-raised-button color="primary">
       Register
     </button>

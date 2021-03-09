@@ -12,7 +12,7 @@ export class authenticationService {
   // Used to set current User.
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) { 
     this.currentUserSubject = new BehaviorSubject<any>(
       JSON.parse(localStorage.getItem('currentUser'))
     );
