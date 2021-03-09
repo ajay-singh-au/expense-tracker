@@ -60,29 +60,20 @@ export class ReportComponent implements OnInit {
       var pdf = new jspdf('p', 'mm', 'a4', true);
       pdf.addImage(contentDataURL, 'JPEG', 5, 0, 200, 287, undefined, 'FAST');
       while (heightLeft >= 0) {
+        console.log("hello");
         position = heightLeft - imgHeight;
         pdf.addPage();
         pdf.addImage(contentDataURL, 'JPEG', 5, 0, 200, 287, undefined, 'FAST');
         heightLeft -= pageHeight;
       }
       // Blob given by JSPDF.
-      console.log(typeof pdf.output('blob'));
+      // console.log(typeof pdf.output('blob'));
       // Blob converted by JSPDF.
-      var blobPDF = new Blob([pdf.output()], { type: 'application/pdf' });
-      console.log(typeof blobPDF);
+      // var blobPDF = new Blob([pdf.output()], { type: 'application/pdf'});
+      // console.log(typeof blobPDF);
       // function to get BASE64 encoded.
-      function toBase64(blob: Blob): Observable<string> {
-        const reader = new FileReader();
-        reader.readAsDataURL(blob);
-        return fromEvent(reader, 'load').pipe(
-          map(() => (reader.result as string).split(',')[1])
-        );
-      }
-      // make request after conversion.
-      toBase64(blobPDF).subscribe((base64) => {
-        console.log(base64);
-        this.expensesServiceHelper
-          .sendExpenseReport(base64)
+      this.expensesServiceHelper
+          .sendExpenseReport(pdf.output('datauristring').substring(51))
           .pipe(first())
           .subscribe(
             (data) => {
@@ -92,7 +83,28 @@ export class ReportComponent implements OnInit {
               console.log(error);
             }
           );
-      });
+      // function toBase64(blob: Blob): Observable<string> {
+      //   const reader = new FileReader();
+      //   reader.readAsDataURL(blob);
+      //   return fromEvent(reader, 'load').pipe(
+      //     map(() => (reader.result as string).split(',')[1])
+      //   );
+      // }
+      // // make request after conversion.
+      // toBase64(blobPDF).subscribe((base64) => {
+      //   // console.log(base64);
+      //   this.expensesServiceHelper
+      //     .sendExpenseReport(pdf.output('datauristring').substring(51))
+      //     .pipe(first())
+      //     .subscribe(
+      //       (data) => {
+      //         console.log(data);
+      //       },
+      //       (error) => {
+      //         console.log(error);
+      //       }
+      //     );
+      // });
       pdf.save('newPDF.pdf');
     });
   }
