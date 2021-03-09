@@ -35,3 +35,14 @@ button {
 .actions-container {
   display: flex;
 }
+
+.button-register-employee {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 5rem !important;
+}
+
+a {
+  text-decoration: none;
+}

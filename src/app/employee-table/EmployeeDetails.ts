@@ -1,7 +1,7 @@
 export interface EmployeeDetails {
     id:number;
     name:string;
-    username:string;
+    amount:number;
     email:string;
-    phone:string;
+    type:string;
 }
