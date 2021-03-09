@@ -7,7 +7,7 @@
     <button (click)="changePassword()" class="login-button" mat-raised-button color="primary"> Change Password</button>
   </mat-card-content>
 </mat-card>
-<mat-card style="margin-top: 0rem;display: flex;  place-items: center;">
+<mat-card class="login-form-container">
   <mat-card-content>
 <div *ngIf="change == 'true'">
     <form [formGroup]="myForm">

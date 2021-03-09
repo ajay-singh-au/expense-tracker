@@ -88,6 +88,24 @@ export class AddExpenseComponent implements OnInit {
             horizontalPosition: 'right',
             verticalPosition: 'bottom',
           });
+          this.myForm = this.fb.group({
+            amount: new FormControl('', [
+              Validators.required,
+              Validators.required,
+            ]),
+            category: new FormControl('', [
+              Validators.required,
+              Validators.required,
+            ]),
+            shopName: new FormControl('', [
+              Validators.required,
+              Validators.required,
+            ]),
+            date: new FormControl('', [
+              Validators.required,
+              Validators.required,
+            ]),
+          });
         },
         (error) => {
           this.error = error?.message;
