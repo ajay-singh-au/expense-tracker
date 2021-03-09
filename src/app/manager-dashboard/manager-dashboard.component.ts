@@ -1,5 +1,6 @@
+// import { ManagerService } from './../services/manager';
 import { Component, OnInit } from '@angular/core';
-import { EmployeeService } from '../services/employees';
+import { ManagerService } from '../services/manager';
 
 @Component({
   selector: 'manager-dashboard',
@@ -9,7 +10,7 @@ import { EmployeeService } from '../services/employees';
 export class ManagerDashboardComponent implements OnInit {
 
   public employees;
-  constructor(private api: EmployeeService) {}
+  constructor(private api: ManagerService) {}
   ngOnInit() {
     this.api.getEmployee().subscribe((res) => {
       this.employees = res;

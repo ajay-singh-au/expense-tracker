@@ -1,3 +1,4 @@
+import { ManagerService } from './../services/manager';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -6,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'register-employee',
@@ -16,11 +18,11 @@ export class RegisterEmployeeComponent implements OnInit {
   registerForm:FormGroup;
   error: String = ""
 
-  constructor(private fb: FormBuilder,  private _snackBar: MatSnackBar) { }
-
-  get idInput() {
-    return this.registerForm.get('id');
-  }  
+  constructor(
+    private fb: FormBuilder,
+    private _snackBar: MatSnackBar, 
+    private registerUser: ManagerService) {}
+    
   get fnameInput() {
     return this.registerForm.get('fname');
   }
@@ -30,31 +32,53 @@ export class RegisterEmployeeComponent implements OnInit {
   get emailInput() {
     return this.registerForm.get('email');
   }
-  // get passwordInput() {
-  //   return this.registerForm.get('password');
-  // }
-  // get rpasswordInput() {
-  //   return this.registerForm.get('rpassword');
-  // }
-
+  get roleInput() {
+    return this.registerForm.get('role');
+  }
   ngOnInit(): void {
-     this.registerForm = this.fb.group({
+    this.registerForm = this.fb.group({
       id: new FormControl('', [Validators.required]),
       fname: new FormControl('', [Validators.required]),
       lname: new FormControl('', [Validators.required]),
       email: new FormControl('',  [Validators.required, Validators.required]),
-      // password: new FormControl('', [Validators.required, Validators.min(3)]),
-      // rpassword: new FormControl('', [Validators.required, Validators.min(3)]),
+      role: new FormControl('',  [Validators.required, Validators.required]),
     });
   }
-   register() {
-    if (this.registerForm.invalid) {
-      this._snackBar.open('Please fill all the Required Fields', '', {
+  register() {
+    if(this.fnameInput.value && this.lnameInput.value && this.emailInput.value && this.roleInput.value){
+    this.registerUser.registerUser(this.fnameInput.value, this.lnameInput.value,this.emailInput.value,this.roleInput.value)
+        .pipe(first())
+        .subscribe(
+          (data) => {
+            console.log("response si this slkdaf", data)
+            console.log("hello hello")
+            this._snackBar.open(`User Registered Successfully!, Employee's ID is${data.id}, an email with login credentialis is sent to ${data.email}`, '', {
+              duration: 10000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+            });
+            console.log("response si this slkdaf", data)
+
+          },
+          (error) => {
+            this.error = error?.error?.error;
+            this._snackBar.open(`${this.error}`, '', {
+              duration: 2000,
+              horizontalPosition: 'right',
+              verticalPosition: 'bottom',
+            });
+          }
+        );
+      console.log(this.fnameInput.value);
+      console.log(this.lnameInput.value);
+      console.log(this.emailInput.value);
+      console.log(this.roleInput.value);
+  } else {
+        this._snackBar.open('Please Fill all Fields', '', {
         duration: 2000,
         horizontalPosition: 'right',
         verticalPosition: 'bottom',
       });
-      return;
-    }}
-
+    } 
+  }
 }
