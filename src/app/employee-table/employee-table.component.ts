@@ -36,7 +36,7 @@ export class EmployeeTableComponent implements OnInit {
     'report',
     'deleteuser',
   ];
-  dataSource = new MatTableDataSource<EmployeeDetails>(this.ELEMENT_DATA);
+  allExpenses = new MatTableDataSource<EmployeeDetails>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -46,20 +46,26 @@ export class EmployeeTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.allExpenses.paginator = this.paginator;
+    this.allExpenses.sort = this.sort;
     this.getAllEmployees();
+    this.getAllExpenses();
   }
-
   public getAllEmployees() {
-    let response = this.service.getEmployee();
+    let response = this.service.getAllExpenses();
     response.subscribe(
-      (employee) => (this.dataSource.data = employee as EmployeeDetails[])
+      (employee) => (this.allExpenses.data = employee as EmployeeDetails[])
+    );
+  }
+  public getAllExpenses() {
+    let response = this.service.getAllExpenses();
+    response.subscribe(
+      (employee) => (this.allExpenses.data = employee as EmployeeDetails[])
     );
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.allExpenses.filter = filterValue.trim().toLowerCase();
   }
   deleteuser(id: string) {
     this.service
