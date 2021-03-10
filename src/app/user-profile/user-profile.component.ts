@@ -15,6 +15,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
+  centered = false;
+  disabled = false;
+  unbounded = false;
+  radius: number;
+  color: string;
   myForm: FormGroup;
   currentUser;
   change = 'false';

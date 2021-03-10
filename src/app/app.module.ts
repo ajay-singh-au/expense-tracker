@@ -93,6 +93,8 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
     MatRadioModule,
     MatCardModule,
     MatDialogModule,
+    MatListModule,
+    MatRippleModule
   ],
   providers: [ProtectedRoute, EmployeeService],
   bootstrap: [AppComponent],
