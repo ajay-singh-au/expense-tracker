@@ -44,7 +44,6 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ExpenseTrackerComponent } from './expense-tracker/expense-tracker.component';
 import { MatListModule } from '@angular/material/list';
 import { MatRippleModule } from '@angular/material/core';
-import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 @NgModule({
   declarations: [
@@ -73,7 +72,6 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
     MatCheckboxModule,
     MatTableModule,
     MatSelectModule,
-    NgxUiLoaderModule,
     MatListModule,
     MatRippleModule,
     MatIconModule,
