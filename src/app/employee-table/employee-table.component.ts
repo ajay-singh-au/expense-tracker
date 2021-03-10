@@ -37,7 +37,7 @@ export class EmployeeTableComponent implements OnInit {
     'deleteuser',
   ];
   allExpenses = new MatTableDataSource<EmployeeDetails>(this.ELEMENT_DATA);
-
+  allUsers = new MatTableDataSource<EmployeeDetails>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(
@@ -48,13 +48,15 @@ export class EmployeeTableComponent implements OnInit {
   ngOnInit() {
     this.allExpenses.paginator = this.paginator;
     this.allExpenses.sort = this.sort;
+    this.allUsers.paginator = this.paginator;
+    this.allUsers.sort = this.sort;
     this.getAllEmployees();
     this.getAllExpenses();
   }
   public getAllEmployees() {
-    let response = this.service.getAllExpenses();
+    let response = this.service.getEmployee();
     response.subscribe(
-      (employee) => (this.allExpenses.data = employee as EmployeeDetails[])
+      (employee) => (this.allUsers.data = employee as EmployeeDetails[])
     );
   }
   public getAllExpenses() {
@@ -66,6 +68,7 @@ export class EmployeeTableComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.allExpenses.filter = filterValue.trim().toLowerCase();
+    this.allUsers.filter = filterValue.trim().toLowerCase();
   }
   deleteuser(id: string) {
     this.service
@@ -74,14 +77,16 @@ export class EmployeeTableComponent implements OnInit {
       .subscribe(
         (data) => {},
         (error) => {
+          this.getAllEmployees();
+          this.getAllExpenses();
           if (error.status === 200) {
-            this._snackBar.open('Expense Deleted Successfully', '', {
+            this._snackBar.open('User Deleted Successfully', '', {
               duration: 2000,
               horizontalPosition: 'right',
               verticalPosition: 'bottom',
             });
           } else {
-            this._snackBar.open('Expense not Deleted. Please try again!!', '', {
+            this._snackBar.open('User not Deleted. Please try again!!', '', {
               duration: 2000,
               horizontalPosition: 'right',
               verticalPosition: 'bottom',

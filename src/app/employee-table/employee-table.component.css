@@ -5,7 +5,12 @@ table {
   margin: 0 auto;
   width: 100%;
 }
-
+.header {
+  display: flex;
+  margin-top: 8rem;
+  font-size: xx-large;
+  justify-content: center;
+}
 th.mat-sort-header-sorted {
   color: black;
 }
