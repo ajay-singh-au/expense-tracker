@@ -72,6 +72,8 @@ import { MatRippleModule } from '@angular/material/core';
     MatCheckboxModule,
     MatTableModule,
     MatSelectModule,
+    MatListModule,
+    MatRippleModule,
     MatIconModule,
     MatDatepickerModule,
     ReactiveFormsModule,

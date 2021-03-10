@@ -9,6 +9,7 @@ import { authenticationService } from '../services/authentication';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'login',
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authenticationServiceHelper: authenticationService,
     private router: Router,
+    private ngxService: NgxUiLoaderService,
     private _snackBar: MatSnackBar
   ) {
     if (this.authenticationServiceHelper.currentUserValue) {
@@ -55,7 +57,9 @@ export class LoginComponent implements OnInit {
     this.hide = true;
   }
   login() {
+    this.ngxService.start();
     if (this.myForm.invalid) {
+      this.ngxService.stop();
       this._snackBar.open('Please fill all the Required Fields', '', {
         duration: 2000,
         horizontalPosition: 'right',
@@ -69,6 +73,7 @@ export class LoginComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (data) => {
+            this.ngxService.stop();
             this._snackBar.open('Login Successfully', '', {
               duration: 2000,
               horizontalPosition: 'right',
@@ -89,7 +94,8 @@ export class LoginComponent implements OnInit {
             }
           },
           (error) => {
-            this.error = error?.error?.error;
+            this.ngxService.stop();
+            this.error = error?.error?.message;
             this._snackBar.open(`${this.error}`, '', {
               duration: 2000,
               horizontalPosition: 'right',

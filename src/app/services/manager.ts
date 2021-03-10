@@ -10,6 +10,17 @@ export class ManagerService {
   constructor(private http: HttpClient) {}
   getEmployee() {
     return this.http
+      .get<any>(`http://localhost:8080/users/getallusers`, {
+        headers: utilHelpers.headers(),
+      })
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+  getAllExpenses() {
+    return this.http
       .get<any>(`http://localhost:8080/expense/netPerUser`, {
         headers: utilHelpers.headers(),
       })
