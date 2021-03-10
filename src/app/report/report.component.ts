@@ -7,6 +7,10 @@ import * as moment from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
+import { BehaviorSubject, Observable, fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report',
@@ -49,6 +53,89 @@ export class ReportComponent implements OnInit {
   selectedDateExpenditure = [];
   selectedDateExpenditurebyCategory = [];
   allExpenses = [];
+  generatePDF(type: string) {
+    let fileName = `Expense Report from ${this.dates.from} to ${this.dates.to}`;
+    var data = document.getElementById('contentToConvert');
+    // var HTML_Width = data.offsetWidth;
+    // var HTML_Height = data.offsetHeight;
+    // var top_left_margin = 15;
+    // var PDF_Width = HTML_Width + top_left_margin * 2;
+    // var PDF_Height = PDF_Width * 1.5 + top_left_margin * 2;
+    // var canvas_image_width = HTML_Width;
+    // var canvas_image_height = HTML_Height;
+    // var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+    // html2canvas(document.getElementById('contentToConvert'), {
+    //   allowTaint: true,
+    // }).then(function (canvas) {
+    //   var imgData = canvas.toDataURL('image/jpeg', 1.0);
+    //   var pdf = new jspdf('p', 'pt', [PDF_Width, PDF_Height]);
+    //   pdf.addImage(
+    //     imgData,
+    //     'JPG',
+    //     top_left_margin,
+    //     top_left_margin,
+    //     canvas_image_width,
+    //     canvas_image_height
+    //   );
+    //   for (var i = 1; i <= totalPDFPages; i++) {
+    //     pdf.addPage(PDF_Width.toString(), 'p');
+    //     pdf.addImage(
+    //       imgData,
+    //       'JPG',
+    //       top_left_margin,
+    //       -(PDF_Height * i) + top_left_margin * 4,
+    //       canvas_image_width,
+    //       canvas_image_height
+    //     );
+    //   }
+    //   if (type == 'email') {
+    //     this.expensesServiceHelper
+    //       .sendExpenseReport(pdf.output('datauristring').substring(51))
+    //       .pipe(first())
+    //       .subscribe(
+    //         (data) => {
+    //           console.log(data);
+    //         },
+    //         (error) => {
+    //           console.log(error);
+    //         }
+    //       );
+    //   }
+    //   pdf.save(fileName);
+    // });
+    html2canvas(data).then((canvas) => {
+      var imgWidth = 200;
+      var pageHeight = 400;
+      var imgHeight = (canvas.height * imgWidth) / canvas.width;
+      var heightLeft = pageHeight - imgHeight;
+      console.log(heightLeft);
+      console.log(imgHeight);
+      var position = 0;
+      const contentDataURL = canvas.toDataURL('image/JPEG');
+      var pdf = new jspdf('p', 'mm', 'a4', true);
+      pdf.addImage(contentDataURL, 'JPEG', 5, 0, 200, 287, undefined, 'FAST');
+      // while (heightLeft >= 0) {
+      //   position = heightLeft - imgHeight;
+      //   pdf.addPage();
+      //   pdf.addImage(contentDataURL, 'JPEG', 5, 0, 200, 287, undefined, 'FAST');
+      //   heightLeft -= pageHeight;
+      // }
+      if (type == 'email') {
+        this.expensesServiceHelper
+          .sendExpenseReport(pdf.output('datauristring').substring(51))
+          .pipe(first())
+          .subscribe(
+            (data) => {
+              console.log(data);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      }
+      pdf.save('newPDF.pdf');
+    });
+  }
   fetch() {
     this.ngxService.start();
     if (!this.dates.from) this.dates.from = new Date();

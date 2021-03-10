@@ -53,7 +53,22 @@
   </mat-card-content>
 </mat-card>
 <br/><br/>
-<div *ngIf="dataSource">
+
+<button
+mat-raised-button
+color="primary"
+(click)="generatePDF('download')"
+>
+Generate PDF
+</button>
+<button
+mat-raised-button
+color="primary"
+(click)="generatePDF('email')"
+>
+Generate and Email PDF
+</button>
+<div *ngIf="dataSource" id="contentToConvert">
   <h2 class="example-h2">Expenses from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
   <table matTableExporter #exporter="matTableExporter" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
      <ng-container matColumnDef="category">
@@ -167,9 +182,10 @@
   </ngx-charts-advanced-pie-chart>
 </mat-card-content>
 </mat-card>
-
 <br/><br/>
-<h2 class="example-h2">Total Expenses from {{this.allExpenses[this.allExpenses.length - 1]?.name | date:'fullDate'}} to {{this.allExpenses[0]?.name| date:'fullDate'}} </h2>
+</div>
+<div>
+   <h2 class="example-h2">Total Expenses from {{this.allExpenses[this.allExpenses.length - 1]?.name | date:'fullDate'}} to {{this.allExpenses[0]?.name| date:'fullDate'}} </h2>
 <mat-card *ngIf="allExpenses" style="margin-top: 0rem;display: flex;">
 <mat-card-content>
 <ngx-charts-bar-vertical 
