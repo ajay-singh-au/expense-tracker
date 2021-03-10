@@ -7,7 +7,6 @@ table {
 }
 .header {
   display: flex;
-  margin-top: 8rem;
   font-size: xx-large;
   justify-content: center;
 }

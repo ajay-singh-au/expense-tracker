@@ -22,7 +22,7 @@ export class UserProfileComponent implements OnInit {
   color: string;
   myForm: FormGroup;
   currentUser;
-  change = 'false';
+  change: Boolean = false;
   get currentPasswordInput() {
     return this.myForm.get('currentPassword');
   }
@@ -59,7 +59,7 @@ export class UserProfileComponent implements OnInit {
     });
   }
   changePassword() {
-    this.change = 'true';
+    this.change = !this.change;
   }
   updatePassword() {
     if (!this.currentPasswordInput.value) {

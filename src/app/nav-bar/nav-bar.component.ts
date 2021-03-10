@@ -23,7 +23,16 @@ export class NavBarComponent implements OnInit {
       });
     }
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.authenticationServiceHelper.currentUserValue) {
+      this.authenticationServiceHelper.currentUser.subscribe((x) => {
+        this.currentUser = this.authenticationServiceHelper.getDecodedAccessToken(
+          x
+        );
+        this.isLoggedIn = x;
+      });
+    }
+  }
   logout() {
     this.authenticationServiceHelper.logout();
     this.router.navigate(['/login']);

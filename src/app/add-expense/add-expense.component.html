@@ -1,6 +1,9 @@
 <div class="login-form-container">
+    <button (click)="fileUpload()" mat-button mat-raised-button color="primary">
+      Add Expense Using PDF Bill &nbsp;
+    </button>
     <h1>Add New Expense</h1>
-    <form>
+    <form *ngIf="isfileUpload">
       <mat-label>Import Expense Data from Bill (PDF)</mat-label>
       <br/>
     <mat-form-field class="columns">

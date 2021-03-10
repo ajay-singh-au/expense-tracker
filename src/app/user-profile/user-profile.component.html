@@ -22,7 +22,7 @@
       [matRippleColor]="color"
     >
       Full Name :
-      {{ currentUser.fname + " " + currentUser.lname }}
+      {{ currentUser.fname + " " + currentUser.lname | titlecase }}
       <mat-icon>badge</mat-icon>
     </div>
     <div
@@ -45,7 +45,7 @@
       [matRippleRadius]="radius"
       [matRippleColor]="color"
     >
-      User Role : {{ currentUser.role.roleName }} <mat-icon>badge </mat-icon>
+      User Role : {{ currentUser?.role?.roleName | titlecase }} <mat-icon>badge </mat-icon>
     </div>
     <button
       (click)="changePassword()"
@@ -57,9 +57,10 @@
     </button>
   </mat-card-content>
 </mat-card>
-<mat-card class="login-form-container" *ngIf="change == 'true'">
+<mat-card class="login-form-container" *ngIf="change">
   <mat-card-content>
     <div>
+      Change Password
       <form [formGroup]="myForm">
         <br />
         <br />

@@ -28,6 +28,7 @@ export class AddExpenseComponent implements OnInit {
   maxDate = new Date();
   selectedFiles = '';
   error: String = '';
+  isfileUpload: Boolean = false;
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -43,6 +44,9 @@ export class AddExpenseComponent implements OnInit {
       .subscribe((data) => {
         this.data = data;
       });
+  }
+  fileUpload() {
+    this.isfileUpload = !this.isfileUpload;
   }
   selectFile(event) {
     let base64 = '';
@@ -143,24 +147,6 @@ export class AddExpenseComponent implements OnInit {
               verticalPosition: 'bottom',
             }
           );
-          this.myForm = this.fb.group({
-            amount: new FormControl('', [
-              Validators.required,
-              Validators.required,
-            ]),
-            category: new FormControl('', [
-              Validators.required,
-              Validators.required,
-            ]),
-            shopName: new FormControl('', [
-              Validators.required,
-              Validators.required,
-            ]),
-            date: new FormControl('', [
-              Validators.required,
-              Validators.required,
-            ]),
-          });
         },
         (error) => {
           this.ngxService.stop();

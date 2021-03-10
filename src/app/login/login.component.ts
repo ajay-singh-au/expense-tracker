@@ -33,13 +33,13 @@ export class LoginComponent implements OnInit {
           this.authenticationServiceHelper.currentUserValue
         ).roles == 'ROLE_ADMIN'
       ) {
-        this.router.navigate(['/all-users']);
+        window.location.href = '/all-users';
       } else if (
         this.authenticationServiceHelper.getDecodedAccessToken(
           this.authenticationServiceHelper.currentUserValue
         ).roles == 'ROLE_USER'
       ) {
-        this.router.navigate(['/employee-dashboard']);
+        window.location.href = '/employee-dashboard';
       }
     }
   }
@@ -55,6 +55,22 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', [Validators.required]),
     });
     this.hide = true;
+
+    if (this.authenticationServiceHelper.currentUserValue) {
+      if (
+        this.authenticationServiceHelper.getDecodedAccessToken(
+          this.authenticationServiceHelper.currentUserValue
+        ).roles == 'ROLE_ADMIN'
+      ) {
+        window.location.href = '/all-users';
+      } else if (
+        this.authenticationServiceHelper.getDecodedAccessToken(
+          this.authenticationServiceHelper.currentUserValue
+        ).roles == 'ROLE_USER'
+      ) {
+        window.location.href = '/employee-dashboard';
+      }
+    }
   }
   login() {
     this.ngxService.start();
@@ -84,13 +100,13 @@ export class LoginComponent implements OnInit {
                 this.authenticationServiceHelper.currentUserValue
               ).roles == 'ROLE_ADMIN'
             ) {
-              this.router.navigate(['/all-users']);
+              window.location.href = '/all-users';
             } else if (
               this.authenticationServiceHelper.getDecodedAccessToken(
                 this.authenticationServiceHelper.currentUserValue
               ).roles == 'ROLE_USER'
             ) {
-              this.router.navigate(['/employee-dashboard']);
+              window.location.href = '/employee-dashboard';
             }
           },
           (error) => {
