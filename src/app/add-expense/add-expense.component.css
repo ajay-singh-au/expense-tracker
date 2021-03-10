@@ -1,9 +1,15 @@
 .button-register-employee {
+  margin-right: 1px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 0;
-  width: 15rem;
+  margin-top: -2rem !important;
+}
+.button-batch-file {
+  margin-right: -1060px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 3rem !important;
 }
 .login-form-container {
     display: grid;
