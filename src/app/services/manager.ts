@@ -39,4 +39,16 @@ export class ManagerService {
         })
       );
   }
+  deleteuser(id: string) {
+    console.log(id);
+    return this.http
+      .delete<any>(`http://localhost:8080/users/delete/${id}`, {
+        headers: utilHelpers.headers(),
+      })
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
 }

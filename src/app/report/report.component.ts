@@ -79,7 +79,8 @@ export class ReportComponent implements OnInit {
           this.expensesServiceHelper
             .getExpensebyDateandCategory(
               moment(this.dates.from).format('YYYY-MM-DD'),
-              moment(this.dates.to).format('YYYY-MM-DD')
+              moment(this.dates.to).format('YYYY-MM-DD'),
+              this.userId
             )
             .subscribe((data) => {
               let arr = [];
