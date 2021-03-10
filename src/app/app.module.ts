@@ -42,6 +42,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RegisterEmployeeComponent } from './register-employee/register-employee.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ExpenseTrackerComponent } from './expense-tracker/expense-tracker.component';
+import { MatListModule } from '@angular/material/list';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -87,6 +89,8 @@ import { ExpenseTrackerComponent } from './expense-tracker/expense-tracker.compo
     MatRadioModule,
     MatCardModule,
     MatDialogModule,
+    MatListModule,
+    MatRippleModule
   ],
   providers: [ProtectedRoute, EmployeeService],
   bootstrap: [AppComponent],
