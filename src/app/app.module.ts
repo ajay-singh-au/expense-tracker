@@ -42,6 +42,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RegisterEmployeeComponent } from './register-employee/register-employee.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ExpenseTrackerComponent } from './expense-tracker/expense-tracker.component';
+import { MatListModule } from '@angular/material/list';
+import { MatRippleModule } from '@angular/material/core';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 @NgModule({
@@ -72,6 +74,8 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
     MatTableModule,
     MatSelectModule,
     NgxUiLoaderModule,
+    MatListModule,
+    MatRippleModule,
     MatIconModule,
     MatDatepickerModule,
     ReactiveFormsModule,
