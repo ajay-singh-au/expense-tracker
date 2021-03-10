@@ -26,6 +26,7 @@ export class AddExpenseComponent implements OnInit {
   myForm: FormGroup;
   selectedValue: string;
   maxDate = new Date();
+  selectedFiles = '';
   error: String = '';
   constructor(
     private http: HttpClient,
@@ -42,6 +43,45 @@ export class AddExpenseComponent implements OnInit {
       .subscribe((data) => {
         this.data = data;
       });
+  }
+  selectFile(event) {
+    let base64 = '';
+    this.selectedFiles = event.target.files;
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      base64 = reader.result.toString().substring(28);
+      this.expensesServiceHelper
+        .addExpenseReport(base64)
+        .pipe(first())
+        .subscribe(
+          (data) => {
+            console.log(data);
+            this.myForm = this.fb.group({
+              amount: new FormControl(data.amount, [
+                Validators.required,
+                Validators.required,
+              ]),
+              category: new FormControl(data.category, [
+                Validators.required,
+                Validators.required,
+              ]),
+              shopName: new FormControl(data.shopName, [
+                Validators.required,
+                Validators.required,
+              ]),
+              date: new FormControl(data.date, [
+                Validators.required,
+                Validators.required,
+              ]),
+            });
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    };
   }
   get amountInput() {
     return this.myForm.get('amount');

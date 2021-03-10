@@ -108,8 +108,6 @@ export class ReportComponent implements OnInit {
       var pageHeight = 400;
       var imgHeight = (canvas.height * imgWidth) / canvas.width;
       var heightLeft = pageHeight - imgHeight;
-      console.log(heightLeft);
-      console.log(imgHeight);
       var position = 0;
       const contentDataURL = canvas.toDataURL('image/JPEG');
       var pdf = new jspdf('p', 'mm', 'a4', true);

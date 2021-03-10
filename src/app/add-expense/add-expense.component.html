@@ -1,5 +1,21 @@
 <div class="login-form-container">
     <h1>Add New Expense</h1>
+    <form>
+      <mat-label>Import Expense Data from Bill (PDF)</mat-label>
+      <br/>
+    <mat-form-field class="columns">
+      <mat-label *ngIf="selectedFiles; else newFile">{{selectedFiles.item(0).name}}</mat-label>
+      <ng-template #newFile>
+          <mat-label>Choose file</mat-label>
+      </ng-template>
+      <input matInput disabled>
+      <button mat-icon-button matSuffix (click)="fileInput.click()">
+          <mat-icon>attach_file</mat-icon>
+      </button>
+      <input hidden (change)="selectFile($event)" accept=".pdf" #fileInput type="file" id="file">
+  </mat-form-field>
+</form>
+<br/><br/>
     <form [formGroup]="myForm">
       <mat-form-field>
         <mat-label>Select Category of Expense</mat-label>
