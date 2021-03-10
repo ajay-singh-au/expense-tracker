@@ -1,6 +1,28 @@
-<div class="login-form-container">
+
+  <div class="login-form-container">
     <h1>Add New Expense</h1>
-    <form>
+    <button (click)="fileUpload()" mat-button mat-raised-button color="primary">
+      Add Expense Using PDF Bill &nbsp;
+    </button>
+    <button  (click)="batchUpload()" class="button-register-employee"  mat-button mat-raised-button color="primary">
+      Add Multiple Expenses using PDF &nbsp;
+    </button>
+    <form *ngIf="isbatchUpload" class="button-batch-file">
+      <mat-label>Add Multiple Expenses using PDF</mat-label>
+      <br/>
+    <mat-form-field class="columns">
+      <mat-label *ngIf="selectedBatchFiles; else newFile">{{selectedBatchFiles.item(0).name}}</mat-label>
+      <ng-template #newFile>
+          <mat-label>Choose file</mat-label>
+      </ng-template>
+      <input matInput disabled>
+      <button mat-icon-button matSuffix (click)="fileInput.click()">
+          <mat-icon>attach_file</mat-icon>
+      </button>
+      <input hidden (change)="batchselectFile($event)" accept=".pdf" #fileInput type="file" id="file">
+  </mat-form-field>
+</form>
+    <form *ngIf="isfileUpload">
       <mat-label>Import Expense Data from Bill (PDF)</mat-label>
       <br/>
     <mat-form-field class="columns">

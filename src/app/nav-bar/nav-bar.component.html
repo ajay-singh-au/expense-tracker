@@ -1,5 +1,5 @@
 <div class="toolbar" role="banner">
-  <a routerLink="/login">
+  <a routerLink="/">
     <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
     <h2>Expense Tracker</h2>
   </a>
@@ -28,7 +28,6 @@
     </a>
   </div>
   <div *ngIf="currentUser?.roles == 'ROLE_ADMIN'">
-    ; else elseBlock">
     <a routerLink="/user-profile" class="login-button-container">
       <button class="login-button" mat-raised-button color="primary">
         User Profile
@@ -45,11 +44,4 @@
       </button>
     </a>
   </div>
-  <ng-template #elseBlock>
-    <a routerLink="/login" class="login-button-container">
-      <button class="login-button" mat-raised-button color="primary">
-        Login
-      </button>
-    </a>
-  </ng-template>
 </div>

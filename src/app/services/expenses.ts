@@ -126,4 +126,25 @@ export class expensesService {
         })
       );
   }
+  addBatchExpense(base64: any) {
+    let token = JSON.parse(localStorage.getItem('currentUser'));
+    let headers = new HttpHeaders({
+      'Content-Type': 'text/plain',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http
+      .post<any>(
+        `http://localhost:8080/report/batchInsert`,
+        JSON.stringify(base64),
+        {
+          headers: headers,
+        }
+      )
+      .pipe(
+        map((data) => {
+          console.log(data);
+          return data;
+        })
+      );
+  }
 }

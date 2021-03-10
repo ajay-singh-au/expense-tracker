@@ -27,7 +27,10 @@ export class AddExpenseComponent implements OnInit {
   selectedValue: string;
   maxDate = new Date();
   selectedFiles = '';
+  selectedBatchFiles = '';
   error: String = '';
+  isfileUpload: Boolean = false;
+  isbatchUpload: Boolean = false;
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -44,6 +47,43 @@ export class AddExpenseComponent implements OnInit {
         this.data = data;
       });
   }
+  fileUpload() {
+    this.isfileUpload = !this.isfileUpload;
+  }
+  batchUpload() {
+    this.isbatchUpload = !this.isbatchUpload;
+  }
+  batchselectFile(event) {
+    let base64 = '';
+    this.selectedBatchFiles = event.target.files;
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      base64 = reader.result.toString().substring(28);
+      this.expensesServiceHelper
+        .addBatchExpense(base64)
+        .pipe(first())
+        .subscribe(
+          (data) => {},
+          (error) => {
+            if (error.status === 200) {
+              this._snackBar.open(`${error.error.text}`, '', {
+                duration: 2000,
+                horizontalPosition: 'right',
+                verticalPosition: 'bottom',
+              });
+            } else {
+              this._snackBar.open(`No Expense Was added`, '', {
+                duration: 2000,
+                horizontalPosition: 'right',
+                verticalPosition: 'bottom',
+              });
+            }
+          }
+        );
+    };
+  }
   selectFile(event) {
     let base64 = '';
     this.selectedFiles = event.target.files;
@@ -57,7 +97,6 @@ export class AddExpenseComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (data) => {
-            console.log(data);
             this.myForm = this.fb.group({
               amount: new FormControl(data.amount, [
                 Validators.required,
