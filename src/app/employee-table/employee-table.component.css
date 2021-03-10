@@ -41,6 +41,9 @@ button {
   align-items: center;
   justify-content: flex-end;
   margin-top: 5rem !important;
+  margin-left: auto;
+  padding: 0;
+  width: 15rem;
 }
 
 a {

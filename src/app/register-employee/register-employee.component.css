@@ -30,7 +30,11 @@ form {
   flex-direction: column;
 }
 
-.back-button {
+.button-register-employee {
   margin-top: 5rem;
   display: inline-block;
+}
+
+a {
+  text-decoration:none;
 }
