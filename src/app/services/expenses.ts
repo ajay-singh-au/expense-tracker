@@ -50,14 +50,14 @@ export class expensesService {
         })
       );
   }
-  getExpensebyDateandCategory(from: string, to: string) {
+  getExpensebyDateandCategory(from: string, to: string, userId: string) {
+    let url = `http://localhost:8080/expense/myNetPerCategory/${from}/${to}`;
+    if (typeof userId != 'undefined')
+      url = `http://localhost:8080/expense/netPerCategory/${userId}/${from}/${to}`;
     return this.http
-      .get<any>(
-        `http://localhost:8080/expense/myNetPerCategory/${from}/${to}`,
-        {
-          headers: utilHelpers.headers(),
-        }
-      )
+      .get<any>(`${url}`, {
+        headers: utilHelpers.headers(),
+      })
       .pipe(
         map((data) => {
           return data;
