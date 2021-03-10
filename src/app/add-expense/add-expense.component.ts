@@ -13,6 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { expensesService } from '../services/expenses';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-add-expense',
@@ -31,6 +32,7 @@ export class AddExpenseComponent implements OnInit {
     private fb: FormBuilder,
     private expensesServiceHelper: expensesService,
     private _snackBar: MatSnackBar,
+    private ngxService: NgxUiLoaderService,
     private route: ActivatedRoute
   ) {
     this.http
@@ -63,6 +65,21 @@ export class AddExpenseComponent implements OnInit {
     this.route.params.subscribe((params) => (this.userId = params['userid']));
   }
   addExpense() {
+    this.ngxService.start();
+    if (
+      !this.categoryInput.value ||
+      !this.amountInput.value ||
+      !this.dateInput.value ||
+      !this.shopNameInput.value
+    ) {
+      this.ngxService.stop();
+      this._snackBar.open('Please fill all the Required Fields', '', {
+        duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+      });
+      return;
+    }
     this.expensesServiceHelper
       .addExpense(
         this.categoryInput.value,
@@ -74,8 +91,11 @@ export class AddExpenseComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
+          this.ngxService.stop();
           this._snackBar.open(
-            `Expense Added Successfully!! for ${data?.user?.fname}`,
+            `Expense Added Successfully for ${utilHelpers.toTitleCase(
+              data?.user?.fname
+            )} ${utilHelpers.toTitleCase(data?.user?.lname)} !!`,
             '',
             {
               duration: 2000,
@@ -83,8 +103,27 @@ export class AddExpenseComponent implements OnInit {
               verticalPosition: 'bottom',
             }
           );
+          this.myForm = this.fb.group({
+            amount: new FormControl('', [
+              Validators.required,
+              Validators.required,
+            ]),
+            category: new FormControl('', [
+              Validators.required,
+              Validators.required,
+            ]),
+            shopName: new FormControl('', [
+              Validators.required,
+              Validators.required,
+            ]),
+            date: new FormControl('', [
+              Validators.required,
+              Validators.required,
+            ]),
+          });
         },
         (error) => {
+          this.ngxService.stop();
           this.error = error?.message;
           this._snackBar.open(error?.message, '', {
             duration: 2000,

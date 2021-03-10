@@ -42,6 +42,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RegisterEmployeeComponent } from './register-employee/register-employee.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ExpenseTrackerComponent } from './expense-tracker/expense-tracker.component';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { ExpenseTrackerComponent } from './expense-tracker/expense-tracker.compo
     MatCheckboxModule,
     MatTableModule,
     MatSelectModule,
+    NgxUiLoaderModule,
     MatIconModule,
     MatDatepickerModule,
     ReactiveFormsModule,

@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { first } from 'rxjs/operators';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'register-employee',
@@ -21,7 +22,8 @@ export class RegisterEmployeeComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _snackBar: MatSnackBar,
-    private registerUser: ManagerService
+    private registerUser: ManagerService,
+    private ngxService: NgxUiLoaderService
   ) {}
 
   get fnameInput() {
@@ -46,6 +48,7 @@ export class RegisterEmployeeComponent implements OnInit {
     });
   }
   register() {
+    this.ngxService.start();
     if (
       this.fnameInput.value &&
       this.lnameInput.value &&
@@ -62,6 +65,7 @@ export class RegisterEmployeeComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (data) => {
+            this.ngxService.stop();
             this._snackBar.open(
               `User Registered Successfully!, Employee's ID is${data.id}, an email with login credentialis is sent to ${data.email}`,
               '',
@@ -73,7 +77,8 @@ export class RegisterEmployeeComponent implements OnInit {
             );
           },
           (error) => {
-            this.error = error?.error?.error;
+            this.ngxService.stop();
+            this.error = error?.error?.message;
             this._snackBar.open(`${this.error}`, '', {
               duration: 2000,
               horizontalPosition: 'right',
@@ -82,6 +87,7 @@ export class RegisterEmployeeComponent implements OnInit {
           }
         );
     } else {
+      this.ngxService.stop();
       this._snackBar.open('Please Fill all Fields', '', {
         duration: 2000,
         horizontalPosition: 'right',

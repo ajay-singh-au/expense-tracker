@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import * as moment from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-report',
@@ -17,7 +18,8 @@ export class ReportComponent implements OnInit {
   constructor(
     private expensesServiceHelper: expensesService,
     private _snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private ngxService: NgxUiLoaderService
   ) {}
   ngOnInit(): void {
     this.range.valueChanges.subscribe(() => {
@@ -48,6 +50,7 @@ export class ReportComponent implements OnInit {
   selectedDateExpenditurebyCategory = [];
   allExpenses = [];
   fetch() {
+    this.ngxService.start();
     if (!this.dates.from) this.dates.from = new Date();
     if (!this.dates.to) this.dates.to = new Date();
     this.expensesServiceHelper
@@ -95,6 +98,7 @@ export class ReportComponent implements OnInit {
           this.expensesServiceHelper
             .allExpenses(this.userId)
             .subscribe((data) => {
+              this.ngxService.stop();
               data.sort(
                 (a, b) =>
                   new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -121,12 +125,14 @@ export class ReportComponent implements OnInit {
     this.dates = utilHelpers.getDatesFunction(e);
   }
   deleteExpense(id: string) {
+    this.ngxService.start();
     this.expensesServiceHelper
       .deleteExpense(id)
       .pipe(first())
       .subscribe(
         (data) => {},
         (error) => {
+          this.ngxService.stop();
           if (error.status === 200) {
             this.fetch();
             this._snackBar.open('Expense Deleted Successfully', '', {
