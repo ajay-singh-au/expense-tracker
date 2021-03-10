@@ -41,6 +41,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RegisterEmployeeComponent } from './register-employee/register-employee.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ExpenseTrackerComponent } from './expense-tracker/expense-tracker.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     ReportComponent,
     RegisterEmployeeComponent,
     UserProfileComponent,
+    ExpenseTrackerComponent,
   ],
   imports: [
     BrowserModule,
