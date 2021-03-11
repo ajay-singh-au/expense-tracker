@@ -54,7 +54,7 @@ export class authenticationService {
     }
   }
   // Get a User Profile using headers.
-  getUserProfile(roles) {
+  getUserProfile() {
     return this.http
       .get<any>(`${environment.BASE_URL}/users/userping`, {
         headers: utilHelpers.headers(),
