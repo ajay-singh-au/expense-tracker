@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { first } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { utilHelpers } from '../services/utilHelpers';
 import { ActivatedRoute } from '@angular/router';
 import { alertService } from '../services/alertService';
@@ -13,6 +12,7 @@ import {
 } from '@angular/forms';
 import { expensesService } from '../services/expenses';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-add-expense',
@@ -37,7 +37,7 @@ export class AddExpenseComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.http
-      .get<any>('http://localhost:8080/category/all', {
+      .get<any>(`${environment.BASE_URL}category/all`, {
         headers: utilHelpers.headers(),
       })
       .subscribe((data) => {
