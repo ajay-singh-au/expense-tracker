@@ -6,7 +6,7 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { alertService } from '../services/alertService';
 import { first } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
@@ -18,14 +18,12 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 export class RegisterEmployeeComponent implements OnInit {
   registerForm: FormGroup;
   error: String = '';
-
   constructor(
     private fb: FormBuilder,
-    private _snackBar: MatSnackBar,
+    private _snackBar: alertService,
     private registerUser: ManagerService,
     private ngxService: NgxUiLoaderService
   ) {}
-
   get fnameInput() {
     return this.registerForm.get('fname');
   }
@@ -48,13 +46,13 @@ export class RegisterEmployeeComponent implements OnInit {
     });
   }
   register() {
-    this.ngxService.start();
     if (
       this.fnameInput.value &&
       this.lnameInput.value &&
       this.emailInput.value &&
       this.roleInput.value
     ) {
+      this.ngxService.start();
       this.registerUser
         .registerUser(
           this.fnameInput.value,
@@ -66,33 +64,18 @@ export class RegisterEmployeeComponent implements OnInit {
         .subscribe(
           (data) => {
             this.ngxService.stop();
-            this._snackBar.open(
-              `User Registered Successfully!, Employee's ID is${data.id}, an email with login credentialis is sent to ${data.email}`,
-              '',
-              {
-                duration: 10000,
-                horizontalPosition: 'center',
-                verticalPosition: 'top',
-              }
+            this._snackBar.snackbar(
+              `User Registered Successfully!, Employee's ID is${data.id}, an email with login credentialis is sent to ${data.email}`
             );
           },
           (error) => {
             this.ngxService.stop();
             this.error = error?.error?.message;
-            this._snackBar.open(`${this.error}`, '', {
-              duration: 2000,
-              horizontalPosition: 'right',
-              verticalPosition: 'bottom',
-            });
+            this._snackBar.snackbar(`${this.error}`);
           }
         );
     } else {
-      this.ngxService.stop();
-      this._snackBar.open('Please Fill all Fields', '', {
-        duration: 2000,
-        horizontalPosition: 'right',
-        verticalPosition: 'bottom',
-      });
+      this._snackBar.snackbar('Please Fill all Fields');
     }
   }
 }

@@ -61,6 +61,7 @@ export class AddExpenseComponent implements OnInit {
     reader.readAsDataURL(file);
     reader.onload = () => {
       base64 = reader.result.toString().substring(28);
+      console.log(base64);
       this.expensesServiceHelper
         .addBatchExpense(base64)
         .pipe(first())
