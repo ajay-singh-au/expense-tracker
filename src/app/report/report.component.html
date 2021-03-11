@@ -16,7 +16,7 @@
 				<br>
 				<br>
 				<br>
-				<mat-radio-button class="example-margin" value="custom">See Report by Date</mat-radio-button>
+				<mat-radio-button class="example-margin" value="custom">See Report by</mat-radio-button>
 				<mat-form-field style="width: 256px;" class="example-margin" *ngIf="ciretera == 'custom'" appearance="fill">
 					<mat-label>Select an Option</mat-label>
 					<mat-select (selectionChange)="updateDates($event.value)">
@@ -38,7 +38,7 @@
 </mat-card>
 <br/>
 <br/>
-<div *ngIf="dataSource" class="export-wrapper">
+<div *ngIf="dataSource && dataSource.length>0"class="export-wrapper">
 	<div class="button-row">
 		<h2>Export Expense Reports :</h2>
 		<button mat-raised-button color="primary" (click)="exporter.exportTable('csv', { fileName: 'Expenses Report' })">CSV</button>
