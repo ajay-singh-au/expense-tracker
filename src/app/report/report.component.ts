@@ -4,13 +4,11 @@ import { utilHelpers } from '../services/utilHelpers';
 import { expensesService } from '../services/expenses';
 import { first } from 'rxjs/operators';
 import * as moment from 'moment';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
-import { BehaviorSubject, Observable, fromEvent } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { alertService } from '../services/alertService';
 
 @Component({
   selector: 'app-report',
@@ -21,7 +19,7 @@ export class ReportComponent implements OnInit {
   userId = '';
   constructor(
     private expensesServiceHelper: expensesService,
-    private _snackBar: MatSnackBar,
+    private _snackBar: alertService,
     private route: ActivatedRoute,
     private ngxService: NgxUiLoaderService
   ) {}
@@ -50,9 +48,11 @@ export class ReportComponent implements OnInit {
     from: new FormControl(),
     to: new FormControl(),
   });
+
   selectedDateExpenditure = [];
   selectedDateExpenditurebyCategory = [];
   allExpenses = [];
+
   generatePDF(type: string) {
     this.ngxService.start();
     let fileName = `Expense Report from ${this.dates.from} to ${this.dates.to}`;
@@ -66,12 +66,6 @@ export class ReportComponent implements OnInit {
       const contentDataURL = canvas.toDataURL('image/JPEG');
       var pdf = new jspdf('p', 'mm', 'a4', true);
       pdf.addImage(contentDataURL, 'JPEG', 5, 0, 200, 287, undefined, 'FAST');
-      // while (heightLeft >= 0) {
-      //   position = heightLeft - imgHeight;
-      //   pdf.addPage();
-      //   pdf.addImage(contentDataURL, 'JPEG', 5, 0, 200, 287, undefined, 'FAST');
-      //   heightLeft -= pageHeight;
-      // }
       if (type == 'email') {
         this.expensesServiceHelper
           .sendExpenseReport(pdf.output('datauristring').substring(51))
@@ -84,20 +78,10 @@ export class ReportComponent implements OnInit {
             (error) => {
               this.ngxService.stop();
               if (error.status === 200) {
-                this._snackBar.open('Report Sent Successfully', '', {
-                  duration: 2000,
-                  horizontalPosition: 'right',
-                  verticalPosition: 'bottom',
-                });
+                this._snackBar.snackbar('Report Sent Successfully');
               } else {
-                this._snackBar.open(
-                  'Report not Sent. Please try again later.!!',
-                  '',
-                  {
-                    duration: 2000,
-                    horizontalPosition: 'right',
-                    verticalPosition: 'bottom',
-                  }
+                this._snackBar.snackbar(
+                  'Report not Sent. Please try again later.!!'
                 );
               }
             }
@@ -193,17 +177,9 @@ export class ReportComponent implements OnInit {
           this.ngxService.stop();
           if (error.status === 200) {
             this.fetch();
-            this._snackBar.open('Expense Deleted Successfully', '', {
-              duration: 2000,
-              horizontalPosition: 'right',
-              verticalPosition: 'bottom',
-            });
+            this._snackBar.snackbar('Expense Deleted Successfully');
           } else {
-            this._snackBar.open('Expense not Deleted. Please try again!!', '', {
-              duration: 2000,
-              horizontalPosition: 'right',
-              verticalPosition: 'bottom',
-            });
+            this._snackBar.snackbar('Expense not Deleted. Please try again!!');
           }
         }
       );

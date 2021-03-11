@@ -9,7 +9,6 @@ import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard
 import { RegisterEmployeeComponent } from './register-employee/register-employee.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { ExpenseTrackerComponent } from './expense-tracker/expense-tracker.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },

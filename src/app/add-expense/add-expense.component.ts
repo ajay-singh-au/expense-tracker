@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { utilHelpers } from '../services/utilHelpers';
 import { ActivatedRoute } from '@angular/router';
+import { alertService } from '../services/alertService';
 import {
   FormBuilder,
   FormGroup,
@@ -27,15 +26,13 @@ export class AddExpenseComponent implements OnInit {
   selectedValue: string;
   maxDate = new Date();
   selectedFiles = '';
-  selectedBatchFiles = '';
   error: String = '';
   isfileUpload: Boolean = false;
-  isbatchUpload: Boolean = false;
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
     private expensesServiceHelper: expensesService,
-    private _snackBar: MatSnackBar,
+    private _snackBar: alertService,
     private ngxService: NgxUiLoaderService,
     private route: ActivatedRoute
   ) {
@@ -49,40 +46,6 @@ export class AddExpenseComponent implements OnInit {
   }
   fileUpload() {
     this.isfileUpload = !this.isfileUpload;
-  }
-  batchUpload() {
-    this.isbatchUpload = !this.isbatchUpload;
-  }
-  batchselectFile(event) {
-    let base64 = '';
-    this.selectedBatchFiles = event.target.files;
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      base64 = reader.result.toString().substring(28);
-      this.expensesServiceHelper
-        .addBatchExpense(base64)
-        .pipe(first())
-        .subscribe(
-          (data) => {},
-          (error) => {
-            if (error.status === 200) {
-              this._snackBar.open(`${error.error.text}`, '', {
-                duration: 2000,
-                horizontalPosition: 'right',
-                verticalPosition: 'bottom',
-              });
-            } else {
-              this._snackBar.open(`No Expense Was added`, '', {
-                duration: 2000,
-                horizontalPosition: 'right',
-                verticalPosition: 'bottom',
-              });
-            }
-          }
-        );
-    };
   }
   selectFile(event) {
     let base64 = '';
@@ -144,21 +107,16 @@ export class AddExpenseComponent implements OnInit {
     this.route.params.subscribe((params) => (this.userId = params['userid']));
   }
   addExpense() {
-    this.ngxService.start();
     if (
       !this.categoryInput.value ||
       !this.amountInput.value ||
       !this.dateInput.value ||
       !this.shopNameInput.value
     ) {
-      this.ngxService.stop();
-      this._snackBar.open('Please fill all the Required Fields', '', {
-        duration: 2000,
-        horizontalPosition: 'right',
-        verticalPosition: 'bottom',
-      });
+      this._snackBar.snackbar('Please fill all the Required Fields');
       return;
     }
+    this.ngxService.start();
     this.expensesServiceHelper
       .addExpense(
         this.categoryInput.value,
@@ -171,44 +129,22 @@ export class AddExpenseComponent implements OnInit {
       .subscribe(
         (data) => {
           this.ngxService.stop();
-          this._snackBar.open(
+          this._snackBar.snackbar(
             `Expense Added Successfully for ${utilHelpers.toTitleCase(
               data?.user?.fname
-            )} ${utilHelpers.toTitleCase(data?.user?.lname)} !!`,
-            '',
-            {
-              duration: 2000,
-              horizontalPosition: 'right',
-              verticalPosition: 'bottom',
-            }
+            )} ${utilHelpers.toTitleCase(data?.user?.lname)} !!`
           );
           this.myForm = this.fb.group({
-            amount: new FormControl('', [
-              Validators.required,
-              Validators.required,
-            ]),
-            category: new FormControl('', [
-              Validators.required,
-              Validators.required,
-            ]),
-            shopName: new FormControl('', [
-              Validators.required,
-              Validators.required,
-            ]),
-            date: new FormControl('', [
-              Validators.required,
-              Validators.required,
-            ]),
+            amount: new FormControl(''),
+            category: new FormControl(''),
+            shopName: new FormControl(''),
+            date: new FormControl(''),
           });
         },
         (error) => {
           this.ngxService.stop();
           this.error = error?.message;
-          this._snackBar.open(error?.message, '', {
-            duration: 2000,
-            horizontalPosition: 'right',
-            verticalPosition: 'bottom',
-          });
+          this._snackBar.snackbar(error?.message);
         }
       );
   }

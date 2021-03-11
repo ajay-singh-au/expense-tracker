@@ -7,7 +7,7 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { alertService } from '../services/alertService';
 
 @Component({
   selector: 'app-user-profile',
@@ -38,23 +38,20 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authenticationServiceHelper: authenticationService,
-    private _snackBar: MatSnackBar
+    private _snackBar: alertService
   ) {
     this.authenticationServiceHelper.currentUser.subscribe((x) => {
       this.currentUser = this.authenticationServiceHelper.getDecodedAccessToken(
         x
       );
-      let roles = '';
-      if (this.currentUser?.roles.includes('USER')) roles = 'userping';
-      if (this.currentUser?.roles.includes('ADMIN')) roles = 'adminping';
       this.authenticationServiceHelper
-        .getUserProfile(roles)
+        .getUserProfile()
         .pipe(first())
         .subscribe(
           (data) => {
             this.currentUser = data;
           },
-          (error) => {}
+          (response) => {}
         );
     });
   }
@@ -63,11 +60,7 @@ export class UserProfileComponent implements OnInit {
   }
   updatePassword() {
     if (!this.currentPasswordInput.value) {
-      this._snackBar.open('Please Enter Current Password!!', '', {
-        duration: 2000,
-        horizontalPosition: 'right',
-        verticalPosition: 'bottom',
-      });
+      this._snackBar.snackbar('Please Enter Current Password!!');
       return;
     }
     this.authenticationServiceHelper
@@ -78,22 +71,12 @@ export class UserProfileComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {},
-        (error) => {
-          if (error.status === 200) {
-            this._snackBar.open('Passwrod Changed Successfully', '', {
-              duration: 2000,
-              horizontalPosition: 'right',
-              verticalPosition: 'bottom',
-            });
+        (response) => {
+          if (response.status === 200) {
+            this._snackBar.snackbar('Passwrod Changed Successfully');
           } else {
-            this._snackBar.open(
-              'Entered Currenct Password is invalid. Please try again!!',
-              '',
-              {
-                duration: 2000,
-                horizontalPosition: 'right',
-                verticalPosition: 'bottom',
-              }
+            this._snackBar.snackbar(
+              'Entered Currenct Password is invalid. Please try again!!'
             );
           }
         }

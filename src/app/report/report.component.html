@@ -16,7 +16,7 @@
 				<br>
 				<br>
 				<br>
-				<mat-radio-button class="example-margin" value="custom">See Report by Date</mat-radio-button>
+				<mat-radio-button class="example-margin" value="custom">See Report by</mat-radio-button>
 				<mat-form-field style="width: 256px;" class="example-margin" *ngIf="ciretera == 'custom'" appearance="fill">
 					<mat-label>Select an Option</mat-label>
 					<mat-select (selectionChange)="updateDates($event.value)">
@@ -38,7 +38,7 @@
 </mat-card>
 <br/>
 <br/>
-<div *ngIf="dataSource" class="export-wrapper">
+<div *ngIf="dataSource && dataSource.length>0"class="export-wrapper">
 	<div class="button-row">
 		<h2>Export Expense Reports :</h2>
 		<button mat-raised-button color="primary" (click)="exporter.exportTable('csv', { fileName: 'Expenses Report' })">CSV</button>
@@ -47,7 +47,7 @@
 		<button mat-raised-button color="primary" (click)="generatePDF('email')">Generate and Email PDF</button>
 	</div>
 </div>
-<div *ngIf="dataSource" id="contentToConvert">
+<div *ngIf="dataSource && dataSource.length>0" id="contentToConvert">
 	<br/>
 	<br/>
 	<h2 class="example-h2">Expenses from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
@@ -132,6 +132,8 @@
 	<br/>
 	<br/>
 </div>
+<h2 style="margin-top: 50px;
+margin-bottom: 50px; color:red" *ngIf="dataSource && dataSource.length<=0">No Expense Made from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
 <div *ngIf="allExpenses.length>0">
 	<h2 class="example-h2">Total Expenses from {{this.allExpenses[this.allExpenses.length - 1]?.name | date:'fullDate'}} to {{this.allExpenses[0]?.name| date:'fullDate'}} </h2>
 	<mat-card *ngIf="allExpenses" style="margin-top: 0rem;display: flex;">

@@ -6,9 +6,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { authenticationService } from '../services/authentication';
+import { alertService } from '../services/alertService';
 import { first } from 'rxjs/operators';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
@@ -19,13 +19,13 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 export class LoginComponent implements OnInit {
   myForm: FormGroup;
   hide: boolean;
-  error: String = '';
+  error: string = '';
   constructor(
     private fb: FormBuilder,
     private authenticationServiceHelper: authenticationService,
+    private alertServiceHelper: alertService,
     private router: Router,
-    private ngxService: NgxUiLoaderService,
-    private _snackBar: MatSnackBar
+    private ngxService: NgxUiLoaderService
   ) {
     if (this.authenticationServiceHelper.currentUserValue) {
       if (
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
           this.authenticationServiceHelper.currentUserValue
         ).roles == 'ROLE_ADMIN'
       ) {
-        window.location.href = '/all-users';
+        this.router.navigate(['/all-users']);
       } else if (
         this.authenticationServiceHelper.getDecodedAccessToken(
           this.authenticationServiceHelper.currentUserValue
@@ -55,14 +55,13 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', [Validators.required]),
     });
     this.hide = true;
-
     if (this.authenticationServiceHelper.currentUserValue) {
       if (
         this.authenticationServiceHelper.getDecodedAccessToken(
           this.authenticationServiceHelper.currentUserValue
         ).roles == 'ROLE_ADMIN'
       ) {
-        window.location.href = '/all-users';
+        this.router.navigate(['/all-users']);
       } else if (
         this.authenticationServiceHelper.getDecodedAccessToken(
           this.authenticationServiceHelper.currentUserValue
@@ -73,34 +72,25 @@ export class LoginComponent implements OnInit {
     }
   }
   login() {
-    this.ngxService.start();
     if (this.myForm.invalid) {
-      this.ngxService.stop();
-      this._snackBar.open('Please fill all the Required Fields', '', {
-        duration: 2000,
-        horizontalPosition: 'right',
-        verticalPosition: 'bottom',
-      });
+      this.alertServiceHelper.snackbar('Please fill all the Required Fields');
       return;
     }
     if (this.emailInput.value && this.passwordInput.value) {
+      this.ngxService.start();
       this.authenticationServiceHelper
         .login(this.emailInput.value, this.passwordInput.value)
         .pipe(first())
         .subscribe(
           (data) => {
             this.ngxService.stop();
-            this._snackBar.open('Login Successfully', '', {
-              duration: 2000,
-              horizontalPosition: 'right',
-              verticalPosition: 'bottom',
-            });
+            this.alertServiceHelper.snackbar('Login Successfully.!!');
             if (
               this.authenticationServiceHelper.getDecodedAccessToken(
                 this.authenticationServiceHelper.currentUserValue
               ).roles == 'ROLE_ADMIN'
             ) {
-              window.location.href = '/all-users';
+              this.router.navigate(['/all-users']);
             } else if (
               this.authenticationServiceHelper.getDecodedAccessToken(
                 this.authenticationServiceHelper.currentUserValue
@@ -112,41 +102,29 @@ export class LoginComponent implements OnInit {
           (error) => {
             this.ngxService.stop();
             this.error = error?.error?.message;
-            this._snackBar.open(`${this.error}`, '', {
-              duration: 2000,
-              horizontalPosition: 'right',
-              verticalPosition: 'bottom',
-            });
+            this.alertServiceHelper.snackbar(this.error);
           }
         );
     }
   }
   forgot() {
     if (!this.emailInput.value) {
-      this._snackBar.open('Please enter Email ID', '', {
-        duration: 2000,
-        horizontalPosition: 'right',
-        verticalPosition: 'bottom',
-      });
+      this.alertServiceHelper.snackbar('Please enter Email ID');
     } else {
+      this.ngxService.start();
       this.authenticationServiceHelper
         .forgotPassword(this.emailInput.value)
         .pipe(first())
         .subscribe(
           (data) => {},
-          (error) => {
-            if (error.status === 200) {
-              this._snackBar.open('Password sent on Email Successfully!!', '', {
-                duration: 2000,
-                horizontalPosition: 'right',
-                verticalPosition: 'bottom',
-              });
+          (response) => {
+            this.ngxService.stop();
+            if (response.status === 200) {
+              this.alertServiceHelper.snackbar(
+                'Password sent on Email Successfully!!'
+              );
             } else {
-              this._snackBar.open(error.error, '', {
-                duration: 2000,
-                horizontalPosition: 'right',
-                verticalPosition: 'bottom',
-              });
+              this.alertServiceHelper.snackbar(response.error.message);
             }
           }
         );

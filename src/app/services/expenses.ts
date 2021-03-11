@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { utilHelpers } from '../services/utilHelpers';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +16,9 @@ export class expensesService {
     shopName: string,
     userId: string
   ) {
-    let url = `http://localhost:8080/expense/add/${category}`;
+    let url = `${environment.BASE_URL}/expense/add/${category}`;
     if (typeof userId != 'undefined')
-      url = `http://localhost:8080/expense/add/${userId}/${category}`;
+      url = `${environment.BASE_URL}/expense/add/${userId}/${category}`;
     return this.http
       .post<any>(
         `${url}`,
@@ -37,9 +38,9 @@ export class expensesService {
       );
   }
   getExpensebyDate(from: string, to: string, userId: string) {
-    let url = `http://localhost:8080/expense/findBy/*/${from}/${to}`;
+    let url = `${environment.BASE_URL}/expense/findBy/*/${from}/${to}`;
     if (typeof userId != 'undefined')
-      url = `http://localhost:8080/expense/findBy/${userId}/*/${from}/${to}`;
+      url = `${environment.BASE_URL}/expense/findBy/${userId}/*/${from}/${to}`;
     return this.http
       .get<any>(`${url}`, {
         headers: utilHelpers.headers(),
@@ -51,9 +52,9 @@ export class expensesService {
       );
   }
   getExpensebyDateandCategory(from: string, to: string, userId: string) {
-    let url = `http://localhost:8080/expense/myNetPerCategory/${from}/${to}`;
+    let url = `${environment.BASE_URL}/expense/myNetPerCategory/${from}/${to}`;
     if (typeof userId != 'undefined')
-      url = `http://localhost:8080/expense/netPerCategory/${userId}/${from}/${to}`;
+      url = `${environment.BASE_URL}/expense/netPerCategory/${userId}/${from}/${to}`;
     return this.http
       .get<any>(`${url}`, {
         headers: utilHelpers.headers(),
@@ -65,9 +66,9 @@ export class expensesService {
       );
   }
   allExpenses(userId: string) {
-    let url = `http://localhost:8080/expense/my`;
+    let url = `${environment.BASE_URL}/expense/my`;
     if (typeof userId != 'undefined')
-      url = `http://localhost:8080/expense/findByUser/${userId}`;
+      url = `${environment.BASE_URL}/expense/findByUser/${userId}`;
     return this.http
       .get<any>(`${url}`, {
         headers: utilHelpers.headers(),
@@ -80,7 +81,7 @@ export class expensesService {
   }
   deleteExpense(id: string) {
     return this.http
-      .delete<any>(`http://localhost:8080/expense/delete/${id}`, {
+      .delete<any>(`${environment.BASE_URL}/expense/delete/${id}`, {
         headers: utilHelpers.headers(),
       })
       .pipe(
@@ -96,12 +97,15 @@ export class expensesService {
       Authorization: `Bearer ${token}`,
     });
     return this.http
-      .post<any>(`http://localhost:8080/report/send`, JSON.stringify(base64), {
-        headers: headers,
-      })
+      .post<any>(
+        `${environment.BASE_URL}/report/send`,
+        JSON.stringify(base64),
+        {
+          headers: headers,
+        }
+      )
       .pipe(
         map((data) => {
-          console.log(data);
           return data;
         })
       );
@@ -114,7 +118,7 @@ export class expensesService {
     });
     return this.http
       .post<any>(
-        `http://localhost:8080/report/readfrompdf`,
+        `${environment.BASE_URL}/report/readfrompdf`,
         JSON.stringify(base64),
         {
           headers: headers,
@@ -134,7 +138,7 @@ export class expensesService {
     });
     return this.http
       .post<any>(
-        `http://localhost:8080/report/batchInsert`,
+        `${environment.BASE_URL}/report/batchInsert`,
         JSON.stringify(base64),
         {
           headers: headers,
@@ -142,7 +146,6 @@ export class expensesService {
       )
       .pipe(
         map((data) => {
-          console.log(data);
           return data;
         })
       );

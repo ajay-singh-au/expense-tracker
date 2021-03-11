@@ -42,3 +42,17 @@ button {
 .actions-container {
   display: flex;
 }
+td.no-content {
+  padding-top: 7rem;
+}
+
+td.no-content:before {
+  content: attr(data-empty-message);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 3rem 0 3rem 0;
+  background-color: white;
+}

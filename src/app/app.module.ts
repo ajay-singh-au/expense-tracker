@@ -41,7 +41,6 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RegisterEmployeeComponent } from './register-employee/register-employee.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { ExpenseTrackerComponent } from './expense-tracker/expense-tracker.component';
 import { MatListModule } from '@angular/material/list';
 import { MatRippleModule } from '@angular/material/core';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
@@ -59,7 +58,6 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
     ReportComponent,
     RegisterEmployeeComponent,
     UserProfileComponent,
-    ExpenseTrackerComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,7 +92,7 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
     MatCardModule,
     MatDialogModule,
     MatListModule,
-    MatRippleModule
+    MatRippleModule,
   ],
   providers: [ProtectedRoute, EmployeeService],
   bootstrap: [AppComponent],

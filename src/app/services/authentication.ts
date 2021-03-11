@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
 import { utilHelpers } from '../services/utilHelpers';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class authenticationService {
   // Login Api, Ussername and Password
   login(username: string, password: string) {
     return this.http
-      .post<any>(`http://localhost:8080/users/authenticate`, {
+      .post<any>(`${environment.BASE_URL}/users/authenticate`, {
         email: username,
         password: password,
       })
@@ -39,10 +40,12 @@ export class authenticationService {
         })
       );
   }
+  // Logout Helper. No Parametres.
   logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
+  // Deocde JWT token. using JWT deocde.
   getDecodedAccessToken(token: string): any {
     try {
       return jwt_decode(token);
@@ -50,9 +53,10 @@ export class authenticationService {
       return null;
     }
   }
-  getUserProfile(roles) {
+  // Get a User Profile using headers.
+  getUserProfile() {
     return this.http
-      .get<any>(`http://localhost:8080/users/userping`, {
+      .get<any>(`${environment.BASE_URL}/users/userping`, {
         headers: utilHelpers.headers(),
       })
       .pipe(
@@ -61,10 +65,11 @@ export class authenticationService {
         })
       );
   }
+  // Change users password.Input- new and old password.
   changePassword(currentPassword: string, newPassword: string) {
     return this.http
       .post<any>(
-        `http://localhost:8080/users/changepassword`,
+        `${environment.BASE_URL}/users/changepassword`,
         {
           newPassword: newPassword,
           currentPassword: currentPassword,
@@ -79,9 +84,10 @@ export class authenticationService {
         })
       );
   }
+  // Reset Password.
   forgotPassword(email: string) {
     return this.http
-      .post<any>(`http://localhost:8080/users/forgotpassword`, {
+      .post<any>(`${environment.BASE_URL}/users/forgotpassword`, {
         email: email,
       })
       .pipe(

@@ -7,12 +7,7 @@ import { Input } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { first } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {
-  MatDialogModule,
-  MatDialog,
-  MatDialogConfig,
-} from '@angular/material/dialog';
+import { alertService } from '../services/alertService';
 
 /**
  * @title Employee Details Table
@@ -42,9 +37,8 @@ export class EmployeeTableComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(
     private service: ManagerService,
-    private _snackBar: MatSnackBar
+    private _snackBar: alertService
   ) {}
-
   ngOnInit() {
     this.allExpenses.paginator = this.paginator;
     this.allExpenses.sort = this.sort;
@@ -65,7 +59,6 @@ export class EmployeeTableComponent implements OnInit {
       (employee) => (this.allExpenses.data = employee as EmployeeDetails[])
     );
   }
-
   applyFilter(filterValue: string) {
     this.allExpenses.filter = filterValue.trim().toLowerCase();
     this.allUsers.filter = filterValue.trim().toLowerCase();
@@ -76,21 +69,13 @@ export class EmployeeTableComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {},
-        (error) => {
+        (response) => {
           this.getAllEmployees();
           this.getAllExpenses();
-          if (error.status === 200) {
-            this._snackBar.open('User Deleted Successfully', '', {
-              duration: 2000,
-              horizontalPosition: 'right',
-              verticalPosition: 'bottom',
-            });
+          if (response.status === 200) {
+            this._snackBar.snackbar('User Deleted Successfully');
           } else {
-            this._snackBar.open('User not Deleted. Please try again!!', '', {
-              duration: 2000,
-              horizontalPosition: 'right',
-              verticalPosition: 'bottom',
-            });
+            this._snackBar.snackbar('User not Deleted. Please try again!!');
           }
         }
       );
