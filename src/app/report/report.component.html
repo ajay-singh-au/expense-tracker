@@ -88,6 +88,7 @@
 		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 		<tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
 	</table>
+	<div *ngIf="dataSource.length === 0">No Expenses found</div>
 	<br/>
 	<br/>
 	<h2 class="example-h2">Category wise expense from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
