@@ -31,7 +31,6 @@ export class ManagerService {
         })
       );
   }
-
   registerUser(fname: string, lname: string, email: string, role: string) {
     return this.http
       .post<any>(

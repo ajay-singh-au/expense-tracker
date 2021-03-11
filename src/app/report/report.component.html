@@ -47,7 +47,7 @@
 		<button mat-raised-button color="primary" (click)="generatePDF('email')">Generate and Email PDF</button>
 	</div>
 </div>
-<div *ngIf="dataSource" id="contentToConvert">
+<div *ngIf="dataSource && dataSource.length>0" id="contentToConvert">
 	<br/>
 	<br/>
 	<h2 class="example-h2">Expenses from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
@@ -88,7 +88,6 @@
 		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 		<tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
 	</table>
-	<div *ngIf="dataSource.length === 0">No Expenses found</div>
 	<br/>
 	<br/>
 	<h2 class="example-h2">Category wise expense from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
@@ -133,6 +132,8 @@
 	<br/>
 	<br/>
 </div>
+<h2 style="margin-top: 50px;
+margin-bottom: 50px; color:red" *ngIf="dataSource && dataSource.length<=0">No Expense Made from {{this.dates.from | date:'fullDate'}} to {{this.dates.to | date:'fullDate'}} </h2>
 <div *ngIf="allExpenses.length>0">
 	<h2 class="example-h2">Total Expenses from {{this.allExpenses[this.allExpenses.length - 1]?.name | date:'fullDate'}} to {{this.allExpenses[0]?.name| date:'fullDate'}} </h2>
 	<mat-card *ngIf="allExpenses" style="margin-top: 0rem;display: flex;">

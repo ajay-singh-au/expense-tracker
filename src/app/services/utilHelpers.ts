@@ -78,11 +78,4 @@ export class utilHelpers {
     header = header.set('Authorization', `Bearer ${token}`);
     return header;
   }
-  snackbar() {
-    this._snackBar.open('Login Successfully', '', {
-      duration: 2000,
-      horizontalPosition: 'right',
-      verticalPosition: 'bottom',
-    });
-  }
 }
